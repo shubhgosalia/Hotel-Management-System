@@ -24,10 +24,6 @@ def showRooms():
     pass
 
 
-def showStaff():
-    pass
-
-
 def reserve():
     pass
 
@@ -45,6 +41,88 @@ def mainroot():
                      font='msserif 33', fg='black', bg='gray89', height=70)
     tf_label.pack(anchor='center')
     top_frame.pack_propagate(False)
+
+    def showStaff():
+        b_frame = Frame(root, height=400, width=1080, bg='white')
+        label = Label(b_frame, height=400, width=1080)
+        label.place(x=0, y=0)
+
+        emp1f = Frame(b_frame)
+        path1 = "images/newman.jpg"
+        img1 = ImageTk.PhotoImage(Image.open(path1))
+        emp1 = Label(emp1f, image=img1)
+        emp1.image = img1
+        emp1.pack()
+        emp1f.place(x=0, y=0)
+        emp1inf = Frame(b_frame, bg='White', height=122, width=300)
+        Label(emp1inf, text="Manager", bg='white',
+              font='msserif 17 bold').place(x=60, y=0)
+        Label(emp1inf, text="John Doe", bg='white',
+              fg="Grey", font='msserif 10').place(x=60, y=37)
+        Label(emp1inf, text="Phone : 999", bg='white',
+              fg="Grey", font='msserif 10').place(x=60, y=59)
+        Label(emp1inf, text="Mail : JohnDoe@google.com", bg='white',
+              fg="Grey", font='msserif 10').place(x=60, y=83)
+        emp1inf.place(x=117, y=1)
+
+        emp1f = Frame(b_frame)
+        path2 = "images/receptionnew.jpg"
+        img2 = ImageTk.PhotoImage(Image.open(path2))
+        emp1 = Label(emp1f, image=img2)
+        emp1.image = img2
+        emp1.pack()
+        emp1f.place(x=657, y=0)
+        emp1inf = Frame(b_frame, bg='White', height=116, width=310)
+        Label(emp1inf, text="Receptionist", bg='white',
+              font='msserif 17 bold').place(x=45, y=0)
+        Label(emp1inf, text="John Doe", bg='white',
+              fg="Grey", font='msserif 10').place(x=45, y=37)
+        Label(emp1inf, text="Phone : 999", bg='white',
+              fg="Grey", font='msserif 10').place(x=45, y=59)
+        Label(emp1inf, text="Mail : JohnDoe@google.com", bg='white',
+              fg="Grey", font='msserif 10').place(x=45, y=83)
+        emp1inf.place(x=767, y=2)
+
+        emp1f = Frame(b_frame)
+        path3 = "images/fchefnew.jpg"
+        img3 = ImageTk.PhotoImage(Image.open(path3))
+        emp1 = Label(emp1f, image=img3)
+        emp1.image = img3
+        emp1.pack()
+        emp1f.place(x=0, y=152)
+        emp1inf = Frame(b_frame, bg='White', height=121, width=320)
+        Label(emp1inf, text="Restaurant", bg='white',
+              font='msserif 17 bold').place(x=72, y=0)
+        Label(emp1inf, text="John Doe", bg='white',
+              fg="Grey", font='msserif 10').place(x=72, y=37)
+        Label(emp1inf, text="Phone : 999", bg='white',
+              fg="Grey", font='msserif 10').place(x=72, y=59)
+        Label(emp1inf, text="Mail : JohnDoe@google.com",
+              bg='white', fg="Grey", font='msserif 10').place(x=72, y=83)
+        emp1inf.place(x=99, y=153)
+
+        emp1f = Frame(b_frame)
+        path4 = "images/roomservicenew.jpg"
+        img4 = ImageTk.PhotoImage(Image.open(path4))
+        emp1 = Label(emp1f, image=img4)
+        emp1.image = img4
+        emp1.pack()
+        emp1f.place(x=657, y=152)
+        emp1inf = Frame(b_frame, bg='White', height=124, width=315)
+        Label(emp1inf, text="Room Service", bg='white',
+              font='msserif 17 bold').place(x=55, y=0)
+        Label(emp1inf, text="John Doe", bg='white',
+              fg="Grey", font='msserif 10').place(x=55, y=37)
+        Label(emp1inf, text="Phone : 999", bg='white',
+              fg="Grey", font='msserif 10').place(x=55, y=59)
+        Label(emp1inf, text="Mail : JohnDoe@google.com",
+              bg='white', fg="Grey", font='msserif 10').place(x=55, y=83)
+        emp1inf.place(x=763, y=153)
+
+        Frame(b_frame, height=13, width=250, bg='white').place(x=410, y=2)
+        Frame(b_frame, height=13, width=250,
+              bg='white').place(x=410, y=153)
+        b_frame.place(x=0, y=120+6+20+60+11)
 
     # ---------------NAV MENU--------------------------------------------------
     sl_frame = Frame(root, height=130, width=1080, bg='white')
