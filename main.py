@@ -1,5 +1,63 @@
 from tkinter import *
 from PIL import ImageTk, Image
+import sqlite3
+
+# import MySQLdb
+
+# conn = MySQLdb.connect(
+#     host='localhost', database='hotel', user='root', password='meetsql11')
+# cursor = conn.cursor()
+
+# -----------------CONNECT DB--------------
+
+# connection = sqlite3.connect("./hotel.db")
+# cursor = connection.cursor()
+
+# cursor.execute("create table Room(room_no integer PRIMARY KEY, isReserved BOOLEAN DEFAULT 0, underRenovation BOOLEAN DEFAULT 0, booked_by TEXT, room_type TEXT, AC_available BOOLEAN DEFAULT 0,  price NUMERIC, date_of_booking TEXT, days_of_stay INTEGER, no_of_customers NUMERIC)")
+
+# cursor.execute(
+#     "create table Staff(role TEXT, name TEXT, phone_no TEXT, mail TEXT)")
+
+
+def addRoom(rno, underRen, roomType, ac, price):
+    connection = sqlite3.connect("./hotel.db")
+    cursor = connection.cursor()
+    str = "insert into Room(room_no, underRenovation, room_type, AC_available, price) values('%d', '%d', '%s', '%d', '%d')"
+    args = (rno, underRen, roomType, ac, price)
+    try:
+        cursor.execute(str % args)
+        connection.commit()
+        print("Room added")
+    except (Exception) as error:
+        print("Error while using MySQL table", error)
+    finally:
+        if(connection):
+            cursor.close()
+            connection.close()
+
+
+def addStaff(role, name, phone, email):
+    connection = sqlite3.connect("./hotel.db")
+    cursor = connection.cursor()
+
+    str = "insert into Staff(role, name, phone_no, mail) values('%s', '%s', '%s', '%s')"
+    args = (role, name, phone, email)
+    try:
+        cursor.execute(str % args)
+        connection.commit()
+        print("Staff added")
+
+    except (Exception) as error:
+        print("Error while using MySQL table", error)
+    finally:
+        if(connection):
+            cursor.close()
+            connection.close()
+
+
+addRoom(1, 0, "Deluxe", 1, 4500)
+addStaff("Manager", "Rohit Sharma", "9988554886", "rohitsharma@google.com")
+
 
 # -----------splash_screen-----------------
 sroot = Tk()
@@ -43,7 +101,7 @@ def mainroot():
     root.maxsize(width=1080, height=550)
     root.configure(bg="white")
     root.title("Hotel Management System")
-    top_frame = Frame(root, height=70, width=1080, bg="dark orange")
+    top_frame = Frame(root, height=70, width=1080, bg="red4")
     top_frame.place(x=0, y=0)
     tf_label = Label(
         top_frame,
@@ -341,17 +399,22 @@ def mainroot():
 
     path5 = "images/logout.png"
     img5 = ImageTk.PhotoImage(Image.open(path5))
-    b5 = Button(sl_frame, image=img5, text="b2", bg="white", width=180, height=100)
+    b5 = Button(sl_frame, image=img5, text="b2",
+                bg="white", width=180, height=100)
     b5.image = img5
     b5.place(x=770, y=0)
 
     Label(sl_frame, text="Hotel Status", font="msserif 13", bg="white").place(
         x=95, y=106
     )
-    Label(sl_frame, text="Rooms", font="msserif 13", bg="white").place(x=290, y=106)
-    Label(sl_frame, text="Reserve", font="msserif 13", bg="white").place(x=457, y=106)
-    Label(sl_frame, text="Contacts", font="msserif 13", bg="white").place(x=644, y=106)
-    Label(sl_frame, text="Exit", font="msserif 13", bg="white").place(x=858, y=106)
+    Label(sl_frame, text="Rooms", font="msserif 13",
+          bg="white").place(x=290, y=106)
+    Label(sl_frame, text="Reserve", font="msserif 13",
+          bg="white").place(x=457, y=106)
+    Label(sl_frame, text="Contacts", font="msserif 13",
+          bg="white").place(x=644, y=106)
+    Label(sl_frame, text="Exit", font="msserif 13",
+          bg="white").place(x=858, y=106)
     sl_frame.pack_propagate(False)
 
 
