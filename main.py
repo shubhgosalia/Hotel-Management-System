@@ -1,5 +1,8 @@
 from tkinter import *
 from PIL import ImageTk, Image
+from tkinter import ttk
+from tkinter import messagebox
+
 
 # -----------splash_screen-----------------
 sroot = Tk()
@@ -26,10 +29,6 @@ Label(
 Label(
     sroot, text="Meet Gajra - 1911011", font="Timesnewroman 40", bg="white", fg="grey"
 ).place(x=235, y=290)
-
-
-def reserve():
-    pass
 
 
 def mainroot():
@@ -535,6 +534,307 @@ def mainroot():
         sidebuttons.insert("end", "\n")
         sidebuttons.window_create("end", window=b20)
 
+    def reserve():
+        b_frame = Frame(root, height=420, width=1080, bg="gray89")
+        path = "images/texture_bg.jpg"
+        img = ImageTk.PhotoImage(Image.open(path))
+        label = Label(b_frame, image=img, height=420, width=1080)
+        label.image = img
+        label.place(x=0, y=0)
+
+        vline = Frame(b_frame, height=400, width=7, bg="lightsteelblue3")
+        vline.place(x=700, y=0)
+
+        Label(
+            b_frame, text="Personal Information", font="msserif 15", bg="gray93"
+        ).place(x=225, y=0)
+
+        fnf = Frame(b_frame, height=1, width=1)
+        fn = Entry(fnf)
+
+        mnf = Frame(b_frame, height=1, width=1)
+        mn = Entry(mnf)
+
+        lnf = Frame(b_frame, height=1, width=1)
+        ln = Entry(lnf)
+
+        fn.insert(0, "First Name *")
+        mn.insert(0, "Middle Name")
+        ln.insert(0, "Last Name *")
+
+        def on_entry_click1(event):
+            if fn.get() == "First Name *":
+                fn.delete(0, END)
+                fn.insert(0, "")
+
+        def on_entry_click2(event):
+            if mn.get() == "Middle Name":
+                mn.delete(0, END)
+                mn.insert(0, "")
+
+        def on_entry_click3(event):
+            if ln.get() == "Last Name *":
+                ln.delete(0, END)
+                ln.insert(0, "")
+
+        def on_exit1(event):
+            if fn.get() == "":
+                fn.insert(0, "First Name *")
+
+        def on_exit2(event):
+            if mn.get() == "":
+                mn.insert(0, "Middle Name")
+
+        def on_exit3(event):
+            if ln.get() == "":
+                ln.insert(0, "Last Name *")
+
+        fn.bind("<FocusIn>", on_entry_click1)
+        mn.bind("<FocusIn>", on_entry_click2)
+        ln.bind("<FocusIn>", on_entry_click3)
+        fn.bind("<FocusOut>", on_exit1)
+        mn.bind("<FocusOut>", on_exit2)
+        ln.bind("<FocusOut>", on_exit3)
+
+        fn.pack(ipady=4, ipadx=15)
+        mn.pack(ipady=4, ipadx=15)
+        ln.pack(ipady=4, ipadx=15)
+        fnf.place(x=20, y=42)
+        mnf.place(x=235, y=42)
+        lnf.place(x=450, y=42)
+
+        Label(
+            b_frame, text="Contact Information", font="msserif 15", bg="gray93"
+        ).place(x=225, y=90)
+
+        cnf = Frame(b_frame, height=1, width=1)
+        cn = Entry(cnf)
+
+        emf = Frame(b_frame, height=1, width=1)
+        em = Entry(emf)
+
+        adf = Frame(b_frame, height=1, width=1)
+        ad = Entry(adf)
+
+        cn.insert(0, "Contact Number *")
+        em.insert(0, "Email *")
+        ad.insert(0, "Guest's Address *")
+
+        def on_entry_click4(event):
+            if cn.get() == "Contact Number *":
+                cn.delete(0, END)
+                cn.insert(0, "")
+
+        def on_entry_click5(event):
+            if em.get() == "Email *":
+                em.delete(0, END)
+                em.insert(0, "")
+
+        def on_entry_click6(event):
+            if ad.get() == "Guest's Address *":
+                ad.delete(0, END)
+                ad.insert(0, "")
+
+        def on_exit4(event):
+            if cn.get() == "":
+                cn.insert(0, "Contact Number *")
+
+        def on_exit5(event):
+            if em.get() == "":
+                em.insert(0, "Email *")
+
+        def on_exit6(event):
+            if ad.get() == "":
+                ad.insert(0, "Guest's Address *")
+
+        cn.bind("<FocusIn>", on_entry_click4)
+        em.bind("<FocusIn>", on_entry_click5)
+        ad.bind("<FocusIn>", on_entry_click6)
+        cn.bind("<FocusOut>", on_exit4)
+        em.bind("<FocusOut>", on_exit5)
+        ad.bind("<FocusOut>", on_exit6)
+
+        cn.pack(ipady=4, ipadx=15)
+        em.pack(ipady=4, ipadx=15)
+        ad.pack(ipady=4, ipadx=15)
+        cnf.place(x=20, y=130)
+        emf.place(x=235, y=130)
+        adf.place(x=450, y=130)
+
+        Label(
+            b_frame, text="Reservation Information", font="msserif 15", bg="gray93"
+        ).place(x=210, y=175)
+
+        nocf = Frame(b_frame, height=1, width=1)
+        noc = Entry(nocf)
+
+        noaf = Frame(b_frame, height=1, width=1)
+        noa = Entry(noaf)
+
+        nodf = Frame(b_frame, height=1, width=1)
+        nod = Entry(nodf)
+
+        noc.insert(0, "Number of Children *")
+        noa.insert(0, "Number of Adults *")
+        nod.insert(0, "Number of Days of Stay *")
+
+        def on_entry_click7(event):
+            if noc.get() == "Number of Children *":
+                noc.delete(0, END)
+                noc.insert(0, "")
+
+        def on_entry_click8(event):
+            if noa.get() == "Number of Adults *":
+                noa.delete(0, END)
+                noa.insert(0, "")
+
+        def on_entry_click9(event):
+            if nod.get() == "Number of Days of Stay *":
+                nod.delete(0, END)
+                nod.insert(0, "")
+
+        def on_exit7(event):
+            if noc.get() == "":
+                noc.insert(0, "Number of Children *")
+
+        def on_exit8(event):
+            if noa.get() == "":
+                noa.insert(0, "Number of Adults *")
+
+        def on_exit9(event):
+            if nod.get() == "":
+                nod.insert(0, "Number of Days of Stay *")
+
+        noc.bind("<FocusIn>", on_entry_click7)
+        noa.bind("<FocusIn>", on_entry_click8)
+        nod.bind("<FocusIn>", on_entry_click9)
+        noc.bind("<FocusOut>", on_exit7)
+        noa.bind("<FocusOut>", on_exit8)
+        nod.bind("<FocusOut>", on_exit9)
+
+        noc.pack(ipady=4, ipadx=15)
+        noa.pack(ipady=4, ipadx=15)
+        nod.pack(ipady=4, ipadx=15)
+        nocf.place(x=20, y=220)
+        noaf.place(x=235, y=220)
+        nodf.place(x=450, y=220)
+
+        roomnf = Frame(b_frame, height=1, width=1)
+        roomn = Entry(roomnf)
+        roomn.insert(0, "Enter Room Number *")
+
+        def on_entry_click10(event):
+            if roomn.get() == "Enter Room Number *":
+                roomn.delete(0, END)
+                roomn.insert(0, "")
+
+        def on_exit10(event):
+            if roomn.get() == "":
+                roomn.insert(0, "Enter Room Number *")
+
+        roomn.bind("<FocusIn>", on_entry_click10)
+        roomn.bind("<FocusOut>", on_exit10)
+        roomn.pack(ipady=4, ipadx=15)
+        roomnf.place(x=20, y=270)
+
+        pmethod = IntVar()
+
+        # -------------------------------------------------------filters-------------------------
+
+        Label(b_frame, text="Filter", font="msserif 20", bg="gray93").place(x=850, y=0)
+
+        nbb = IntVar()
+        acb = IntVar()
+        tvb = IntVar()
+        wifib = IntVar()
+
+        style = ttk.Style()
+        style.map("TCombobox", fieldbackground=[("readonly", "white")])
+        Label(b_frame, text="Bed(s) :", bg="gray93", font="17").place(x=730, y=50)
+        nb = ttk.Combobox(
+            b_frame,
+            values=["please select...", "1", "2", "3"],
+            state="readonly",
+            width=22,
+        )
+        nb.place(x=830, y=50)
+        nb.current(0)
+
+        Label(b_frame, text="AC :", font="17", bg="gray93").place(x=732, y=75)
+        ac = ttk.Combobox(
+            b_frame,
+            values=["please select...", "Yes", "No"],
+            state="readonly",
+            width=22,
+        )
+        ac.place(x=830, y=75)
+        ac.current(0)
+
+        Label(b_frame, text="TV :", font="17", bg="gray93").place(x=732, y=100)
+        tv = ttk.Combobox(
+            b_frame,
+            values=["please select...", "Yes", "No"],
+            state="readonly",
+            width=22,
+        )
+        tv.place(x=830, y=100)
+        tv.current(0)
+
+        Label(b_frame, text="Wifi :", font="17", bg="gray93").place(x=732, y=125)
+        wifi = ttk.Combobox(
+            b_frame,
+            values=["please select...", "Yes", "No"],
+            state="readonly",
+            width=22,
+        )
+        wifi.place(x=830, y=125)
+        wifi.current(0)
+        listofrooms = Listbox(b_frame, height=6, width=36)
+        listofrooms.place(x=735, y=190)
+        listofrooms.insert(END, "Rooms of Your Choice will appear Here")
+        listofrooms.insert(END, "once you apply filter")
+
+        Res = Button(
+            b_frame,
+            text="Reserve",
+            bg="white",
+            fg="red4",
+            font="timenewroman 11",
+            activebackground="green",
+        ).place(x=235, y=270)
+
+        unres = Button(
+            b_frame,
+            text="Unreserve",
+            bg="white",
+            fg="red4",
+            font="timenewroman 11",
+            activebackground="green",
+        ).place(x=327, y=270)
+
+        findrooms = Button(
+            b_frame,
+            text="Find Rooms",
+            bg="white",
+            fg="red4",
+            font="timenewroman 9",
+            activebackground="green",
+        ).place(x=830, y=155)
+
+        scrollbar = Scrollbar(b_frame, orient="vertical")
+        scrollbar.config(command=listofrooms.yview)
+        scrollbar.place(x=1014, y=191, height=111)
+        listofrooms.config(yscrollcommand=scrollbar.set)
+
+        b_frame.place(x=0, y=120 + 6 + 20 + 60 + 11)
+        b_frame.pack_propagate(False)
+        b_frame.tkraise()
+
+    def exit():
+        q = messagebox.askyesno("Exit", "Do you really want to exit ?")
+        if q:
+            root.destroy()
+
     def showStaff():
         b_frame = Frame(root, height=400, width=1080, bg="white")
         label = Label(b_frame, height=400, width=1080)
@@ -692,7 +992,9 @@ def mainroot():
 
     path5 = "images/logout.png"
     img5 = ImageTk.PhotoImage(Image.open(path5))
-    b5 = Button(sl_frame, image=img5, text="b2", bg="white", width=180, height=100)
+    b5 = Button(
+        sl_frame, image=img5, text="b2", bg="white", width=180, height=100, command=exit
+    )
     b5.image = img5
     b5.place(x=770, y=0)
 
@@ -704,6 +1006,14 @@ def mainroot():
     Label(sl_frame, text="Contacts", font="msserif 13", bg="white").place(x=644, y=106)
     Label(sl_frame, text="Exit", font="msserif 13", bg="white").place(x=858, y=106)
     sl_frame.pack_propagate(False)
+
+    redf = Frame(root, height=6, width=1080, bg="lightsteelblue3")
+    redf.place(x=0, y=70)
+    redf1 = Frame(root, height=40, width=1080, bg="lightsteelblue3")
+    redf1.place(x=0, y=210)
+
+    reserve()
+    mainloop()
 
 
 def call_mainroot():
