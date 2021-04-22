@@ -28,10 +28,6 @@ Label(
 ).place(x=235, y=290)
 
 
-def showRooms():
-    pass
-
-
 def reserve():
     pass
 
@@ -66,7 +62,7 @@ def mainroot():
         label = Label(b_frame, image=img, height=400, width=1080)
         label.image = img
         label.place(x=0, y=0)
-        tor = 25
+        tor = 20
         rer = 15
         tos = 13
         avr = int(tor) - int(rer)
@@ -184,6 +180,361 @@ def mainroot():
             x=60, y=60
         )
 
+        redf1 = Frame(b_frame, height=8, width=1080, bg="dark orange")
+
+        redf1.place(x=0, y=22)
+        Label(
+            b_frame, text="Hotel Status", font="msserif 12", bg="red4", fg="white"
+        ).pack(anchor="center")
+        redf1.pack_propagate(False)
+
+    def showRooms():
+        b_frame = Frame(root, height=400, width=1080, bg="gray91")
+        b_frame.place(x=0, y=120 + 6 + 20 + 60 + 11)
+        b_frame.pack_propagate(False)
+        b_frame.tkraise()
+        path = "images/texture_bg.jpg"
+        img = ImageTk.PhotoImage(Image.open(path))
+        label = Label(b_frame, image=img, height=400, width=1080)
+        label.image = img
+        label.place(x=0, y=0)
+        sidebuttons = Text(b_frame, width=1, height=19)
+        sc = Scrollbar(
+            b_frame, command=sidebuttons.yview, width=10, bg="lightsteelblue3"
+        )
+        sidebuttons.configure(yscrollcommand=sc.set)
+        sc.pack(side="left", fill=Y)
+        sidebuttons.place(x=10, y=0)
+
+        def roomdet(rno):
+            Label(
+                b_frame,
+                text="Room %s" % rno,
+                font="msserif 15",
+                fg="white",
+                bg="red4",
+                width=10,
+            ).place(x=535, y=0)
+
+            smf1 = Frame(b_frame, height=120, width=145, bg="white")
+            hline = Frame(b_frame, height=20, width=960, bg="red4")
+            hline.place(x=122, y=27)
+            vline = Frame(b_frame, height=400, width=7, bg="lightsteelblue3")
+            vline.place(x=122, y=0)
+            tr = Label(
+                smf1,
+                text="Total Bed(s):",
+                fg="white",
+                bg="red4",
+                width=100,
+                height=2,
+                font="msserif 15",
+            )
+            tr.pack(side="top")
+            smf1.pack_propagate(False)
+            smf1.place(x=129 + 3, y=30)
+            Label(smf1, text="1", fg="red4", bg="white", font="msserif 35").pack()
+            smf2 = Frame(b_frame, height=120, width=145, bg="white")
+            tr = Label(
+                smf2,
+                text="AC Available?",
+                fg="white",
+                bg="red4",
+                width=100,
+                height=2,
+                font="msserif 15",
+            )
+            tr.pack(side="top")
+            smf2.pack_propagate(False)
+            smf2.place(x=140 * 2 + 5 + 3 * 2, y=30)
+            Label(smf2, text="Yes", fg="red4", bg="white", font="msserif 35").pack()
+            smf2 = Frame(b_frame, height=120, width=145, bg="white")
+            tr = Label(
+                smf2,
+                text="TV Available?",
+                fg="white",
+                bg="red4",
+                width=100,
+                height=2,
+                font="msserif 15",
+            )
+            tr.pack(side="top")
+            smf2.pack_propagate(False)
+            smf2.place(x=140 * 3 + 12 + 5 * 2 + 3 * 3, y=30)
+            Label(smf2, text="Yes", fg="red4", bg="white", font="msserif 35").pack()
+            smf2 = Frame(b_frame, height=120, width=145, bg="white")
+            tr = Label(
+                smf2,
+                text="  Wifi ?",
+                fg="white",
+                bg="red4",
+                width=100,
+                height=2,
+                font="msserif 15",
+            )
+            tr.pack(side="top")
+            smf2.pack_propagate(False)
+            smf2.place(x=140 * 4 + 12 * 2 + 5 * 3 + 3 * 4, y=30)
+            Label(smf2, text="No", fg="red4", bg="white", font="msserif 35").pack()
+            smf2 = Frame(b_frame, height=120, width=145, bg="white")
+            tr = Label(
+                smf2,
+                text=" Price ?",
+                fg="white",
+                bg="red4",
+                width=100,
+                height=2,
+                font="msserif 15",
+            )
+            tr.pack(side="top")
+            smf2.pack_propagate(False)
+            smf2.place(x=140 * 5 + 12 * 3 + 5 * 4 + 3 * 5, y=30)
+            Label(smf2, text="2500", fg="red4", bg="white", font="msserif 35").pack()
+            smf2 = Frame(b_frame, height=120, width=145, bg="white")
+            tr = Label(
+                smf2,
+                text="Reserved ?",
+                fg="white",
+                bg="red4",
+                width=100,
+                height=2,
+                font="msserif 15",
+            )
+            tr.pack(side="top")
+            smf2.pack_propagate(False)
+            smf2.place(x=140 * 6 + 12 * 4 + 5 * 5 + 3 * 6, y=30)
+            p = "No"
+            Label(smf2, text=p, fg="red4", bg="white", font="msserif 35").pack()
+
+        roomdet(1)
+        # b1 = Button(b_frame,font='mssherif 10', text="Room 1",bg='white',fg='cyan4',width=10,command=lambda:roomdet(1))
+        # sidebuttons.window_create("end",window=b)
+        # sidebuttons.insert("end", "\n")
+        """for i in range(1,21):
+	            b = Button(b_frame,font='mssherif 10', text="Room %s" % i,bg='white',fg='cyan4',width=10,command=lambda:roomdet(i))
+	            sidebuttons.window_create("end", window=b)
+	            sidebuttons.insert("end", "\n")"""
+        sidebuttons.configure(state="disabled")
+        b1 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 1",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(1),
+        )
+        b2 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 2",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(2),
+        )
+        b3 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 3",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(3),
+        )
+        b4 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 4",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(4),
+        )
+        b5 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 5",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(5),
+        )
+        b6 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 6",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(6),
+        )
+        b7 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 7",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(7),
+        )
+        b8 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 8",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(8),
+        )
+        b9 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 9",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(9),
+        )
+        b10 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 10",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(10),
+        )
+        b11 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 11",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(11),
+        )
+        b12 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 12",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(12),
+        )
+        b13 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 13",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(13),
+        )
+        b14 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 14",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(14),
+        )
+        b15 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 15",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(15),
+        )
+        b16 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 16",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(16),
+        )
+        b17 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 17",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(17),
+        )
+        b18 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 18",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(18),
+        )
+        b19 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 19",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(19),
+        )
+        b20 = Button(
+            b_frame,
+            font="mssherif 10",
+            text="Room 20",
+            bg="white",
+            fg="red4",
+            width=10,
+            command=lambda: roomdet(20),
+        )
+        sidebuttons.window_create("end", window=b1)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b2)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b3)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b4)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b5)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b6)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b7)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b8)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b9)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b10)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b11)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b12)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b13)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b14)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b15)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b16)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b17)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b18)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b19)
+        sidebuttons.insert("end", "\n")
+        sidebuttons.window_create("end", window=b20)
+
     def showStaff():
         b_frame = Frame(root, height=400, width=1080, bg="white")
         label = Label(b_frame, height=400, width=1080)
@@ -299,7 +650,7 @@ def mainroot():
 
     # ---------------NAV MENU--------------------------------------------------
     sl_frame = Frame(root, height=130, width=1080, bg="white")
-    sl_frame.place(x=0, y=70 + 6)
+    sl_frame.place(x=32.5, y=70 + 6)
 
     path1 = "images/hotelstatus.png"
     img1 = ImageTk.PhotoImage(Image.open(path1))
