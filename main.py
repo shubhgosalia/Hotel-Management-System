@@ -7,7 +7,8 @@ import sqlite3
 import MySQLdb
 
 conn = MySQLdb.connect(
-    host='localhost', database='hotel', user='root', password='pass')
+    host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+)
 cursor = conn.cursor()
 
 
@@ -23,15 +24,16 @@ cursor = conn.cursor()
 # connection = sqlite3.connect("./hotel.db")
 # cursor = connection.cursor()
 
-# cursor.execute("create table Room(room_no integer PRIMARY KEY, isReserved BOOLEAN DEFAULT 0, underRenovation BOOLEAN DEFAULT 0, booked_by TEXT, room_type TEXT, AC_available BOOLEAN DEFAULT 0,  price NUMERIC, date_of_booking TEXT, days_of_stay INTEGER, no_of_customers NUMERIC)")
-
 # cursor.execute(
-#     "create table Staff(role TEXT, name TEXT, phone_no TEXT, mail TEXT)")
+#   "create table Room(room_no integer PRIMARY KEY, isReserved BOOLEAN DEFAULT 0, underRenovation BOOLEAN DEFAULT 0, booked_by TEXT, room_type TEXT, AC_available BOOLEAN DEFAULT 0,  price NUMERIC, date_of_booking TEXT, days_of_stay INTEGER, no_of_customers NUMERIC)"
+# )
+# cursor.execute("create table Staff(role TEXT, name TEXT, phone_no TEXT, mail TEXT)")
 
 
 def roomStatus():
     connection = MySQLdb.connect(
-        host='localhost', database='hotel', user='root', password='pass')
+        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+    )
     cursor = connection.cursor()
     cursor.execute("select room_no from Room")
     cursor.fetchall()
@@ -54,17 +56,25 @@ def roomStatus():
 
     availableRooms = totalRooms - reservedRooms
 
-    return [totalRooms, reservedRooms, availableRooms, totalStaff, totalCustomers, renovRooms]
+    return [
+        totalRooms,
+        reservedRooms,
+        availableRooms,
+        totalStaff,
+        totalCustomers,
+        renovRooms,
+    ]
 
 
 def staffStatus():
     staff = []
     connection = MySQLdb.connect(
-        host='localhost', database='hotel', user='root', password='pass')
+        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+    )
     cursor = connection.cursor()
     cursor.execute("select * from Staff")
     row = cursor.fetchone()
-    while(row is not None):
+    while row is not None:
         staff.append(row)
         row = cursor.fetchone()
     return staff
@@ -80,7 +90,8 @@ def staffStatus():
 def addRoom(rno, underRen, roomType, ac, price):
 
     connection = MySQLdb.connect(
-        host='localhost', database='hotel', user='root', password='pass')
+        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+    )
     cursor = connection.cursor()
 
     str = "insert into Room(room_no, underRenovation, room_type, AC_available, price) values('%d', '%d', '%s', '%d', '%d')"
@@ -92,7 +103,7 @@ def addRoom(rno, underRen, roomType, ac, price):
     except (Exception) as error:
         print("Error while using MySQL table", error)
     finally:
-        if(connection):
+        if connection:
             cursor.close()
             connection.close()
 
@@ -100,7 +111,8 @@ def addRoom(rno, underRen, roomType, ac, price):
 def addStaff(role, name, phone, email):
 
     connection = MySQLdb.connect(
-        host='localhost', database='hotel', user='root', password='pass')
+        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+    )
     cursor = connection.cursor()
 
     str = "insert into Staff(role, name, phone_no, mail) values('%s', '%s', '%s', '%s')"
@@ -113,16 +125,24 @@ def addStaff(role, name, phone, email):
     except (Exception) as error:
         print("Error while using MySQL table", error)
     finally:
-        if(connection):
+        if connection:
             cursor.close()
             connection.close()
 
 
-# addRoom(1,0,Deluxe, 1, 4500)
-# addStaff("Receptionist", "Pooja Verma", "9383555686", "Poojaverma@google.com")
-#addStaff("Restaurant", "Gordon Ramsey", "9323252566", "gordonramsey@google.com")
-#addStaff("Room Service", "Maya Bhatt", "8453256577", "mayabhatt@google.com")
+# addRoom(1, 0, "Deluxe", 1, 4500)
+#addRoom(2, 0, "Deluxe", 1, 4500)
+#addRoom(3, 1, "Standard", 0, 2500)
+#addRoom(4, 1, "Standard", 0, 2500)
+#addRoom(5, 0, "Suite", 1, 6500)
+#addRoom(6, 1, "Standard", 0, 2500)
+#addRoom(7, 0, "Suite", 1, 6500)
+#addRoom(8, 0, "Deluxe", 1, 4500)
 
+# addStaff("Receptionist", "Pooja Verma", "9383555686", "Poojaverma@google.com")
+# addStaff("Restaurant", "Gordon Ramsey", "9323252566", "gordonramsey@google.com")
+# addStaff("Room Service", "Maya Bhatt", "8453256577", "mayabhatt@google.com")
+# addStaff("Manager", "Vijay Nath", "9457283456", "vijaynath@gmail.com")
 
 # -----------splash_screen-----------------
 sroot = Tk()
@@ -348,8 +368,7 @@ def mainroot():
             tr.pack(side="top")
             smf1.pack_propagate(False)
             smf1.place(x=129 + 3, y=30)
-            Label(smf1, text="1", fg="red4",
-                  bg="white", font="msserif 35").pack()
+            Label(smf1, text="1", fg="red4", bg="white", font="msserif 35").pack()
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
@@ -363,8 +382,7 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 2 + 5 + 3 * 2, y=30)
-            Label(smf2, text="Yes", fg="red4",
-                  bg="white", font="msserif 35").pack()
+            Label(smf2, text="Yes", fg="red4", bg="white", font="msserif 35").pack()
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
@@ -378,8 +396,7 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 3 + 12 + 5 * 2 + 3 * 3, y=30)
-            Label(smf2, text="Yes", fg="red4",
-                  bg="white", font="msserif 35").pack()
+            Label(smf2, text="Yes", fg="red4", bg="white", font="msserif 35").pack()
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
@@ -393,8 +410,7 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 4 + 12 * 2 + 5 * 3 + 3 * 4, y=30)
-            Label(smf2, text="No", fg="red4",
-                  bg="white", font="msserif 35").pack()
+            Label(smf2, text="No", fg="red4", bg="white", font="msserif 35").pack()
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
@@ -408,8 +424,7 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 5 + 12 * 3 + 5 * 4 + 3 * 5, y=30)
-            Label(smf2, text="2500", fg="red4",
-                  bg="white", font="msserif 35").pack()
+            Label(smf2, text="2500", fg="red4", bg="white", font="msserif 35").pack()
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
@@ -861,13 +876,11 @@ def mainroot():
 
         # -------------------------------------------------------filters-------------------------
 
-        Label(b_frame, text="Filter", font="msserif 20",
-              bg="gray93").place(x=850, y=0)
+        Label(b_frame, text="Filter", font="msserif 20", bg="gray93").place(x=850, y=0)
 
         style = ttk.Style()
         style.map("TCombobox", fieldbackground=[("readonly", "white")])
-        Label(b_frame, text="Bed(s) :", bg="gray93",
-              font="17").place(x=730, y=50)
+        Label(b_frame, text="Bed(s) :", bg="gray93", font="17").place(x=730, y=50)
         nb = ttk.Combobox(
             b_frame,
             values=["please select...", "1", "2", "3"],
@@ -897,8 +910,7 @@ def mainroot():
         tv.place(x=830, y=100)
         tv.current(0)
 
-        Label(b_frame, text="Wifi :", font="17",
-              bg="gray93").place(x=732, y=125)
+        Label(b_frame, text="Wifi :", font="17", bg="gray93").place(x=732, y=125)
         wifi = ttk.Combobox(
             b_frame,
             values=["please select...", "Yes", "No"],
@@ -980,11 +992,15 @@ def mainroot():
             x=60, y=37
         )
         Label(
-            emp1inf, text="Phone : "+employ1[2], bg="white", fg="Grey", font="msserif 10"
+            emp1inf,
+            text="Phone : " + employ1[2],
+            bg="white",
+            fg="Grey",
+            font="msserif 10",
         ).place(x=60, y=59)
         Label(
             emp1inf,
-            text="Mail : "+employ1[3],
+            text="Mail : " + employ1[3],
             bg="white",
             fg="Grey",
             font="msserif 10",
@@ -1006,11 +1022,15 @@ def mainroot():
             x=45, y=37
         )
         Label(
-            emp1inf, text="Phone : "+employ2[2], bg="white", fg="Grey", font="msserif 10"
+            emp1inf,
+            text="Phone : " + employ2[2],
+            bg="white",
+            fg="Grey",
+            font="msserif 10",
         ).place(x=45, y=59)
         Label(
             emp1inf,
-            text="Mail : "+employ2[3],
+            text="Mail : " + employ2[3],
             bg="white",
             fg="Grey",
             font="msserif 10",
@@ -1032,11 +1052,15 @@ def mainroot():
             x=72, y=37
         )
         Label(
-            emp1inf, text="Phone : "+employ3[2], bg="white", fg="Grey", font="msserif 10"
+            emp1inf,
+            text="Phone : " + employ3[2],
+            bg="white",
+            fg="Grey",
+            font="msserif 10",
         ).place(x=72, y=59)
         Label(
             emp1inf,
-            text="Mail : "+employ3[3],
+            text="Mail : " + employ3[3],
             bg="white",
             fg="Grey",
             font="msserif 10",
@@ -1058,11 +1082,15 @@ def mainroot():
             x=55, y=37
         )
         Label(
-            emp1inf, text="Phone : "+employ4[2], bg="white", fg="Grey", font="msserif 10"
+            emp1inf,
+            text="Phone : " + employ4[2],
+            bg="white",
+            fg="Grey",
+            font="msserif 10",
         ).place(x=55, y=59)
         Label(
             emp1inf,
-            text="Mail : "+employ4[3],
+            text="Mail : " + employ4[3],
             bg="white",
             fg="Grey",
             font="msserif 10",
@@ -1118,8 +1146,7 @@ def mainroot():
     path5 = "images/logout.png"
     img5 = ImageTk.PhotoImage(Image.open(path5))
 
-    b5 = Button(sl_frame, image=img5, text="b2",
-                bg="white", width=180, height=100)
+    b5 = Button(sl_frame, image=img5, text="b2", bg="white", width=180, height=100)
     b5 = Button(
         sl_frame, image=img5, text="b2", bg="white", width=180, height=100, command=exit
     )
@@ -1129,14 +1156,10 @@ def mainroot():
     Label(sl_frame, text="Hotel Status", font="msserif 13", bg="white").place(
         x=95, y=106
     )
-    Label(sl_frame, text="Rooms", font="msserif 13",
-          bg="white").place(x=290, y=106)
-    Label(sl_frame, text="Reserve", font="msserif 13",
-          bg="white").place(x=457, y=106)
-    Label(sl_frame, text="Contacts", font="msserif 13",
-          bg="white").place(x=644, y=106)
-    Label(sl_frame, text="Exit", font="msserif 13",
-          bg="white").place(x=858, y=106)
+    Label(sl_frame, text="Rooms", font="msserif 13", bg="white").place(x=290, y=106)
+    Label(sl_frame, text="Reserve", font="msserif 13", bg="white").place(x=457, y=106)
+    Label(sl_frame, text="Contacts", font="msserif 13", bg="white").place(x=644, y=106)
+    Label(sl_frame, text="Exit", font="msserif 13", bg="white").place(x=858, y=106)
     sl_frame.pack_propagate(False)
 
     redf = Frame(root, height=6, width=1080, bg="lightsteelblue3")
