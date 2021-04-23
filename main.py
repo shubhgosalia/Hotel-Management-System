@@ -7,11 +7,8 @@ import sqlite3
 import MySQLdb
 
 conn = MySQLdb.connect(
-    host='localhost', database='hotel', user='root', password='notrealpass')
+    host='localhost', database='hotel', user='root', password='pass')
 cursor = conn.cursor()
-
-# connection = sqlite3.connect("./hotel.db")
-# cursor = connection.cursor()
 
 
 # total_rooms = cursor.execute("select count(*) from Room")
@@ -58,6 +55,19 @@ def roomStatus():
     availableRooms = totalRooms - reservedRooms
 
     return [totalRooms, reservedRooms, availableRooms, totalStaff, totalCustomers, renovRooms]
+
+
+def staffStatus():
+    staff = []
+    connection = MySQLdb.connect(
+        host='localhost', database='hotel', user='root', password='pass')
+    cursor = connection.cursor()
+    cursor.execute("select * from Staff")
+    row = cursor.fetchone()
+    while(row is not None):
+        staff.append(row)
+        row = cursor.fetchone()
+    return staff
 
 
 # total_rooms = cursor.execute("select count(*) from Room")
@@ -109,7 +119,9 @@ def addStaff(role, name, phone, email):
 
 
 # addRoom(1,0,Deluxe, 1, 4500)
-# addStaff("Manager", "Rohit Sharma", "9988554886", "rohitsharma@google.com")
+# addStaff("Receptionist", "Pooja Verma", "9383555686", "Poojaverma@google.com")
+#addStaff("Restaurant", "Gordon Ramsey", "9323252566", "gordonramsey@google.com")
+#addStaff("Room Service", "Maya Bhatt", "8453256577", "mayabhatt@google.com")
 
 
 # -----------splash_screen-----------------
@@ -909,23 +921,23 @@ def mainroot():
             activebackground="green",
         ).place(x=235, y=270)
 
-        # unres = Button(
-        #     b_frame,
-        #     text="Unreserve",
-        #     bg="white",
-        #     fg="red4",
-        #     font="timenewroman 11",
-        #     activebackground="green",
-        # ).place(x=327, y=270)
+        unres = Button(
+            b_frame,
+            text="Unreserve",
+            bg="white",
+            fg="red4",
+            font="timenewroman 11",
+            activebackground="green",
+        ).place(x=327, y=270)
 
-        # findrooms = Button(
-        #     b_frame,
-        #     text="Find Rooms",
-        #     bg="white",
-        #     fg="red4",
-        #     font="timenewroman 9",
-        #     activebackground="green",
-        # ).place(x=830, y=155)
+        findrooms = Button(
+            b_frame,
+            text="Find Rooms",
+            bg="white",
+            fg="red4",
+            font="timenewroman 9",
+            activebackground="green",
+        ).place(x=830, y=155)
 
         scrollbar = Scrollbar(b_frame, orient="vertical")
         scrollbar.config(command=listofrooms.yview)
@@ -942,6 +954,13 @@ def mainroot():
             root.destroy()
 
     def showStaff():
+
+        staff = staffStatus()
+        employ1 = staff[0]
+        employ2 = staff[1]
+        employ3 = staff[2]
+        employ4 = staff[3]
+
         b_frame = Frame(root, height=400, width=1080, bg="white")
         label = Label(b_frame, height=400, width=1080)
         label.place(x=0, y=0)
@@ -954,18 +973,18 @@ def mainroot():
         emp1.pack()
         emp1f.place(x=0, y=0)
         emp1inf = Frame(b_frame, bg="White", height=122, width=300)
-        Label(emp1inf, text="Manager", bg="white", font="msserif 17 bold").place(
+        Label(emp1inf, text=employ1[0], bg="white", font="msserif 17 bold").place(
             x=60, y=0
         )
-        Label(emp1inf, text="John Doe", bg="white", fg="Grey", font="msserif 10").place(
+        Label(emp1inf, text=employ1[1], bg="white", fg="Grey", font="msserif 10").place(
             x=60, y=37
         )
         Label(
-            emp1inf, text="Phone : 999", bg="white", fg="Grey", font="msserif 10"
+            emp1inf, text="Phone : "+employ1[2], bg="white", fg="Grey", font="msserif 10"
         ).place(x=60, y=59)
         Label(
             emp1inf,
-            text="Mail : JohnDoe@google.com",
+            text="Mail : "+employ1[3],
             bg="white",
             fg="Grey",
             font="msserif 10",
@@ -980,18 +999,18 @@ def mainroot():
         emp1.pack()
         emp1f.place(x=657, y=0)
         emp1inf = Frame(b_frame, bg="White", height=116, width=310)
-        Label(emp1inf, text="Receptionist", bg="white", font="msserif 17 bold").place(
+        Label(emp1inf, text=employ2[0], bg="white", font="msserif 17 bold").place(
             x=45, y=0
         )
-        Label(emp1inf, text="John Doe", bg="white", fg="Grey", font="msserif 10").place(
+        Label(emp1inf, text=employ2[1], bg="white", fg="Grey", font="msserif 10").place(
             x=45, y=37
         )
         Label(
-            emp1inf, text="Phone : 999", bg="white", fg="Grey", font="msserif 10"
+            emp1inf, text="Phone : "+employ2[2], bg="white", fg="Grey", font="msserif 10"
         ).place(x=45, y=59)
         Label(
             emp1inf,
-            text="Mail : JohnDoe@google.com",
+            text="Mail : "+employ2[3],
             bg="white",
             fg="Grey",
             font="msserif 10",
@@ -1006,18 +1025,18 @@ def mainroot():
         emp1.pack()
         emp1f.place(x=0, y=152)
         emp1inf = Frame(b_frame, bg="White", height=121, width=320)
-        Label(emp1inf, text="Restaurant", bg="white", font="msserif 17 bold").place(
+        Label(emp1inf, text=employ3[0], bg="white", font="msserif 17 bold").place(
             x=72, y=0
         )
-        Label(emp1inf, text="John Doe", bg="white", fg="Grey", font="msserif 10").place(
+        Label(emp1inf, text=employ3[1], bg="white", fg="Grey", font="msserif 10").place(
             x=72, y=37
         )
         Label(
-            emp1inf, text="Phone : 999", bg="white", fg="Grey", font="msserif 10"
+            emp1inf, text="Phone : "+employ3[2], bg="white", fg="Grey", font="msserif 10"
         ).place(x=72, y=59)
         Label(
             emp1inf,
-            text="Mail : JohnDoe@google.com",
+            text="Mail : "+employ3[3],
             bg="white",
             fg="Grey",
             font="msserif 10",
@@ -1032,18 +1051,18 @@ def mainroot():
         emp1.pack()
         emp1f.place(x=657, y=152)
         emp1inf = Frame(b_frame, bg="White", height=124, width=315)
-        Label(emp1inf, text="Room Service", bg="white", font="msserif 17 bold").place(
+        Label(emp1inf, text=employ4[0], bg="white", font="msserif 17 bold").place(
             x=55, y=0
         )
-        Label(emp1inf, text="John Doe", bg="white", fg="Grey", font="msserif 10").place(
+        Label(emp1inf, text=employ4[1], bg="white", fg="Grey", font="msserif 10").place(
             x=55, y=37
         )
         Label(
-            emp1inf, text="Phone : 999", bg="white", fg="Grey", font="msserif 10"
+            emp1inf, text="Phone : "+employ4[2], bg="white", fg="Grey", font="msserif 10"
         ).place(x=55, y=59)
         Label(
             emp1inf,
-            text="Mail : JohnDoe@google.com",
+            text="Mail : "+employ4[3],
             bg="white",
             fg="Grey",
             font="msserif 10",
