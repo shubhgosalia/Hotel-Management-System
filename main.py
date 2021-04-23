@@ -1,14 +1,25 @@
-from tkinter import messagebox
-from tkinter import ttk
 from tkinter import *
 from PIL import ImageTk, Image
+from tkinter import ttk
+from tkinter import messagebox
 import sqlite3
 
-# import MySQLdb
+import MySQLdb
 
-# conn = MySQLdb.connect(
-#     host='localhost', database='hotel', user='root', password='meetsql11')
-# cursor = conn.cursor()
+conn = MySQLdb.connect(
+    host='localhost', database='hotel', user='root', password='notrealpass')
+cursor = conn.cursor()
+
+# connection = sqlite3.connect("./hotel.db")
+# cursor = connection.cursor()
+
+
+# total_rooms = cursor.execute("select count(*) from Room")
+# reserved_rooms = cursor.execute(
+#     "select count(*) from Room where isReserved=1")
+# available_rooms = total_rooms - reserved_rooms
+
+# print("total", total_rooms)
 
 # -----------------CONNECT DB--------------
 
@@ -21,9 +32,47 @@ import sqlite3
 #     "create table Staff(role TEXT, name TEXT, phone_no TEXT, mail TEXT)")
 
 
-def addRoom(rno, underRen, roomType, ac, price):
-    connection = sqlite3.connect("./hotel.db")
+def roomStatus():
+    connection = MySQLdb.connect(
+        host='localhost', database='hotel', user='root', password='pass')
     cursor = connection.cursor()
+    cursor.execute("select room_no from Room")
+    cursor.fetchall()
+    totalRooms = cursor.rowcount
+
+    cursor.execute("select room_no from Room where isReserved=1")
+    cursor.fetchall()
+    reservedRooms = cursor.rowcount
+
+    cursor.execute("select name from Staff")
+    cursor.fetchall()
+    totalStaff = cursor.rowcount
+
+    cursor.execute("select SUM(no_of_customers) from Room")
+    totalCustomers = cursor.fetchone()
+
+    cursor.execute("select room_no from Room where underRenovation=1")
+    cursor.fetchall()
+    renovRooms = cursor.rowcount
+
+    availableRooms = totalRooms - reservedRooms
+
+    return [totalRooms, reservedRooms, availableRooms, totalStaff, totalCustomers, renovRooms]
+
+
+# total_rooms = cursor.execute("select count(*) from Room")
+# reserved_rooms = cursor.execute(
+#     "select count(*) from Room where isReserved=1")
+# available_rooms = total_rooms - reserved_rooms
+# roomStatus()
+
+
+def addRoom(rno, underRen, roomType, ac, price):
+
+    connection = MySQLdb.connect(
+        host='localhost', database='hotel', user='root', password='pass')
+    cursor = connection.cursor()
+
     str = "insert into Room(room_no, underRenovation, room_type, AC_available, price) values('%d', '%d', '%s', '%d', '%d')"
     args = (rno, underRen, roomType, ac, price)
     try:
@@ -39,7 +88,9 @@ def addRoom(rno, underRen, roomType, ac, price):
 
 
 def addStaff(role, name, phone, email):
-    connection = sqlite3.connect("./hotel.db")
+
+    connection = MySQLdb.connect(
+        host='localhost', database='hotel', user='root', password='pass')
     cursor = connection.cursor()
 
     str = "insert into Staff(role, name, phone_no, mail) values('%s', '%s', '%s', '%s')"
@@ -57,8 +108,8 @@ def addStaff(role, name, phone, email):
             connection.close()
 
 
-addRoom(1, 0, "Deluxe", 1, 4500)
-addStaff("Manager", "Rohit Sharma", "9988554886", "rohitsharma@google.com")
+# addRoom(1,0,Deluxe, 1, 4500)
+# addStaff("Manager", "Rohit Sharma", "9988554886", "rohitsharma@google.com")
 
 
 # -----------splash_screen-----------------
@@ -118,20 +169,16 @@ def mainroot():
         label = Label(b_frame, image=img, height=400, width=1080)
         label.image = img
         label.place(x=0, y=0)
-        tor = 20
-        rer = 15
-        tos = 13
-        avr = int(tor) - int(rer)
-        avr = str(avr)
 
-        hts = Label(
-            b_frame,
-            text="Hotel Status",
-            font="msserif 15",
-            fg="black",
-            bg="gray91",
-            height=1,
-        )
+        lst = roomStatus()
+        print(lst)
+
+        tor = lst[0]
+        rer = lst[1]
+        avr = lst[2]
+        tos = lst[3]
+        toc = lst[4]
+        renRooms = lst[5]
 
         smf1 = Frame(b_frame, height=150, width=175, bg="white")
         tr = Label(
@@ -197,7 +244,7 @@ def mainroot():
         tc.pack(side="top")
         smf4.pack_propagate(False)
         smf4.place(x=540 + 8, y=30)
-        Label(smf4, text="50", fg="red4", bg="white", font="msserif 50").pack(
+        Label(smf4, text=toc, fg="red4", bg="white", font="msserif 50").pack(
             anchor="center"
         )
 
@@ -232,7 +279,7 @@ def mainroot():
         ts.pack(side="top")
         smf6.pack_propagate(False)
         smf6.place(x=915, y=30)
-        Label(smf6, text="5", fg="red4", bg="white", font="msserif 50").place(
+        Label(smf6, text=renRooms, fg="red4", bg="white", font="msserif 50").place(
             x=60, y=60
         )
 
@@ -372,7 +419,8 @@ def mainroot():
         # sidebuttons.window_create("end",window=b)
         # sidebuttons.insert("end", "\n")
         """for i in range(1,21):
-	            b = Button(b_frame,font='mssherif 10', text="Room %s" % i,bg='white',fg='cyan4',width=10,command=lambda:roomdet(i))
+	            b = Button(b_frame,font='mssherif 10', text="Room %s" %
+	                       i,bg='white',fg='cyan4',width=10,command=lambda:roomdet(i))
 	            sidebuttons.window_create("end", window=b)
 	            sidebuttons.insert("end", "\n")"""
         sidebuttons.configure(state="disabled")
@@ -799,17 +847,10 @@ def mainroot():
         roomn.pack(ipady=4, ipadx=15)
         roomnf.place(x=20, y=270)
 
-        pmethod = IntVar()
-
         # -------------------------------------------------------filters-------------------------
 
         Label(b_frame, text="Filter", font="msserif 20",
               bg="gray93").place(x=850, y=0)
-
-        nbb = IntVar()
-        acb = IntVar()
-        tvb = IntVar()
-        wifib = IntVar()
 
         style = ttk.Style()
         style.map("TCombobox", fieldbackground=[("readonly", "white")])
@@ -868,23 +909,23 @@ def mainroot():
             activebackground="green",
         ).place(x=235, y=270)
 
-        unres = Button(
-            b_frame,
-            text="Unreserve",
-            bg="white",
-            fg="red4",
-            font="timenewroman 11",
-            activebackground="green",
-        ).place(x=327, y=270)
+        # unres = Button(
+        #     b_frame,
+        #     text="Unreserve",
+        #     bg="white",
+        #     fg="red4",
+        #     font="timenewroman 11",
+        #     activebackground="green",
+        # ).place(x=327, y=270)
 
-        findrooms = Button(
-            b_frame,
-            text="Find Rooms",
-            bg="white",
-            fg="red4",
-            font="timenewroman 9",
-            activebackground="green",
-        ).place(x=830, y=155)
+        # findrooms = Button(
+        #     b_frame,
+        #     text="Find Rooms",
+        #     bg="white",
+        #     fg="red4",
+        #     font="timenewroman 9",
+        #     activebackground="green",
+        # ).place(x=830, y=155)
 
         scrollbar = Scrollbar(b_frame, orient="vertical")
         scrollbar.config(command=listofrooms.yview)
@@ -1058,35 +1099,34 @@ def mainroot():
     path5 = "images/logout.png"
     img5 = ImageTk.PhotoImage(Image.open(path5))
 
+    b5 = Button(sl_frame, image=img5, text="b2",
+                bg="white", width=180, height=100)
+    b5 = Button(
+        sl_frame, image=img5, text="b2", bg="white", width=180, height=100, command=exit
+    )
+    b5.image = img5
+    b5.place(x=770, y=0)
 
-b5 = Button(sl_frame, image=img5, text="b2",
-            bg="white", width=180, height=100)
-b5 = Button(
-    sl_frame, image=img5, text="b2", bg="white", width=180, height=100, command=exit
-)
-b5.image = img5
-b5.place(x=770, y=0)
+    Label(sl_frame, text="Hotel Status", font="msserif 13", bg="white").place(
+        x=95, y=106
+    )
+    Label(sl_frame, text="Rooms", font="msserif 13",
+          bg="white").place(x=290, y=106)
+    Label(sl_frame, text="Reserve", font="msserif 13",
+          bg="white").place(x=457, y=106)
+    Label(sl_frame, text="Contacts", font="msserif 13",
+          bg="white").place(x=644, y=106)
+    Label(sl_frame, text="Exit", font="msserif 13",
+          bg="white").place(x=858, y=106)
+    sl_frame.pack_propagate(False)
 
-Label(sl_frame, text="Hotel Status", font="msserif 13", bg="white").place(
-    x=95, y=106
-)
-Label(sl_frame, text="Rooms", font="msserif 13",
-      bg="white").place(x=290, y=106)
-Label(sl_frame, text="Reserve", font="msserif 13",
-      bg="white").place(x=457, y=106)
-Label(sl_frame, text="Contacts", font="msserif 13",
-      bg="white").place(x=644, y=106)
-Label(sl_frame, text="Exit", font="msserif 13",
-      bg="white").place(x=858, y=106)
-sl_frame.pack_propagate(False)
+    redf = Frame(root, height=6, width=1080, bg="lightsteelblue3")
+    redf.place(x=0, y=70)
+    redf1 = Frame(root, height=40, width=1080, bg="lightsteelblue3")
+    redf1.place(x=0, y=210)
 
-redf = Frame(root, height=6, width=1080, bg="lightsteelblue3")
-redf.place(x=0, y=70)
-redf1 = Frame(root, height=40, width=1080, bg="lightsteelblue3")
-redf1.place(x=0, y=210)
-
-reserve()
-mainloop()
+    reserve()
+    mainloop()
 
 
 def call_mainroot():
@@ -1094,5 +1134,5 @@ def call_mainroot():
     mainroot()
 
 
-sroot.after(10, call_mainroot)
+sroot.after(1000, call_mainroot)
 mainloop()
