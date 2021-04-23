@@ -85,11 +85,12 @@ def staffStatus():
 
 def roomStatus(roomNum):
     connection = MySQLdb.connect(
-        host='localhost', database='hotel', user='root', password='pass')
+        host="localhost", database="hotel", user="root", password="pass"
+    )
     cursor = connection.cursor()
 
     str = "select * from Room where room_no= %d"
-    args = (roomNum)
+    args = roomNum
     cursor.execute(str % args)
     room = cursor.fetchone()
     return room
@@ -145,13 +146,13 @@ def addStaff(role, name, phone, email):
 
 
 # addRoom(1, 0, "Deluxe", 1, 4500)
-#addRoom(2, 0, "Deluxe", 1, 4500)
-#addRoom(3, 1, "Standard", 0, 2500)
-#addRoom(4, 1, "Standard", 0, 2500)
-#addRoom(5, 0, "Suite", 1, 6500)
-#addRoom(6, 1, "Standard", 0, 2500)
-#addRoom(7, 0, "Suite", 1, 6500)
-#addRoom(8, 0, "Deluxe", 1, 4500)
+# addRoom(2, 0, "Deluxe", 1, 4500)
+# addRoom(3, 1, "Standard", 0, 2500)
+# addRoom(4, 1, "Standard", 0, 2500)
+# addRoom(5, 0, "Suite", 1, 6500)
+# addRoom(6, 1, "Standard", 0, 2500)
+# addRoom(7, 0, "Suite", 1, 6500)
+# addRoom(8, 0, "Deluxe", 1, 4500)
 
 # addStaff("Receptionist", "Pooja Verma", "9383555686", "Poojaverma@google.com")
 # addStaff("Restaurant", "Gordon Ramsey", "9323252566", "gordonramsey@google.com")
@@ -340,7 +341,8 @@ def mainroot():
     def showRooms():
 
         connection = MySQLdb.connect(
-            host='localhost', database='hotel', user='root', password='pass')
+            host="localhost", database="hotel", user="root", password="pass"
+        )
         cursor = connection.cursor()
         cursor.execute("select room_no from Room")
         cursor.fetchall()
@@ -366,7 +368,7 @@ def mainroot():
         def roomdet(rno):
 
             room = roomStatus(rno)
-            if(room[1]):
+            if room[1]:
                 reserved = "Yes"
                 bookedBy = room[3]
                 date = room[7]
@@ -379,14 +381,14 @@ def mainroot():
                 days = "-"
                 cust = "-"
 
-            if(room[2]):
+            if room[2]:
                 renov = "Yes"
             else:
                 renov = "No"
 
             rtype = room[4]
 
-            if(room[5]):
+            if room[5]:
                 ac = "Yes"
             else:
                 ac = "No"
@@ -419,15 +421,9 @@ def mainroot():
             )
             tr.pack()
             smf1.pack_propagate(False)
-<<<<<<< HEAD
-            smf1.place(x=129 + 3, y=30)
-            Label(smf1, text="1", fg="red4", bg="white", font="msserif 35").pack()
-=======
             smf1.place(x=129 + 18, y=50)
-            Label(smf1, text=rtype, fg="red4",
-                  bg="white", font="msserif 22").pack()
+            Label(smf1, text=rtype, fg="red4", bg="white", font="msserif 22").pack()
 
->>>>>>> 176e7d42b1a8aea4198adfc147b4ae548fae1f74
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
@@ -440,17 +436,10 @@ def mainroot():
             )
             tr.pack(side="top")
             smf2.pack_propagate(False)
-<<<<<<< HEAD
-            smf2.place(x=140 * 2 + 5 + 3 * 2, y=30)
-            Label(smf2, text="Yes", fg="red4", bg="white", font="msserif 35").pack()
-            smf2 = Frame(b_frame, height=120, width=145, bg="white")
-=======
             smf2.place(x=140 * 2 + 5 + 3 * 2 + 20, y=50)
-            Label(smf2, text=ac, fg="red4",
-                  bg="white", font="msserif 18").pack()
+            Label(smf2, text=ac, fg="red4", bg="white", font="msserif 18").pack()
 
             smf2 = Frame(b_frame, height=120, width=175, bg="white")
->>>>>>> 176e7d42b1a8aea4198adfc147b4ae548fae1f74
             tr = Label(
                 smf2,
                 text="Under Renovation?",
@@ -462,14 +451,8 @@ def mainroot():
             )
             tr.pack(side="top")
             smf2.pack_propagate(False)
-<<<<<<< HEAD
-            smf2.place(x=140 * 3 + 12 + 5 * 2 + 3 * 3, y=30)
-            Label(smf2, text="Yes", fg="red4", bg="white", font="msserif 35").pack()
-=======
             smf2.place(x=140 * 3 + 12 + 5 * 2 + 3 * 3 + 20, y=50)
-            Label(smf2, text=renov, fg="red4",
-                  bg="white", font="msserif 18").pack()
->>>>>>> 176e7d42b1a8aea4198adfc147b4ae548fae1f74
+            Label(smf2, text=renov, fg="red4", bg="white", font="msserif 18").pack()
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
@@ -482,14 +465,8 @@ def mainroot():
             )
             tr.pack(side="top")
             smf2.pack_propagate(False)
-<<<<<<< HEAD
-            smf2.place(x=140 * 4 + 12 * 2 + 5 * 3 + 3 * 4, y=30)
-            Label(smf2, text="No", fg="red4", bg="white", font="msserif 35").pack()
-=======
             smf2.place(x=140 * 4 + 12 * 2 + 5 * 3 + 3 * 4 + 50, y=50)
-            Label(smf2, text=price, fg="red4",
-                  bg="white", font="msserif 18").pack()
->>>>>>> 176e7d42b1a8aea4198adfc147b4ae548fae1f74
+            Label(smf2, text=price, fg="red4", bg="white", font="msserif 18").pack()
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
@@ -502,14 +479,8 @@ def mainroot():
             )
             tr.pack(side="top")
             smf2.pack_propagate(False)
-<<<<<<< HEAD
-            smf2.place(x=140 * 5 + 12 * 3 + 5 * 4 + 3 * 5, y=30)
-            Label(smf2, text="2500", fg="red4", bg="white", font="msserif 35").pack()
-            smf2 = Frame(b_frame, height=120, width=145, bg="white")
-=======
             smf2.place(x=140 * 5 + 12 * 3 + 5 * 4 + 3 * 5 + 50, y=50)
-            Label(smf2, text=reserved, fg="red4",
-                  bg="white", font="msserif 18").pack()
+            Label(smf2, text=reserved, fg="red4", bg="white", font="msserif 18").pack()
 
             smf1 = Frame(b_frame, height=120, width=175, bg="white")
             tr = Label(
@@ -524,11 +495,9 @@ def mainroot():
             tr.pack()
             smf1.pack_propagate(False)
             smf1.place(x=129 + 18, y=190)
-            Label(smf1, text=bookedBy, fg="red4",
-                  bg="white", font="msserif 18").pack()
+            Label(smf1, text=bookedBy, fg="red4", bg="white", font="msserif 18").pack()
 
             smf2 = Frame(b_frame, height=120, width=175, bg="white")
->>>>>>> 176e7d42b1a8aea4198adfc147b4ae548fae1f74
             tr = Label(
                 smf2,
                 text="Date of booking",
@@ -541,8 +510,7 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 2 + 5 + 3 * 2 + 50, y=190)
-            Label(smf2, text=date, fg="red4",
-                  bg="white", font="msserif 18").pack()
+            Label(smf2, text=date, fg="red4", bg="white", font="msserif 18").pack()
 
             smf2 = Frame(b_frame, height=120, width=175, bg="white")
             tr = Label(
@@ -557,8 +525,7 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 3 + 12 + 5 * 2 + 3 * 3 + 80, y=190)
-            Label(smf2, text=days, fg="red4",
-                  bg="white", font="msserif 18").pack()
+            Label(smf2, text=days, fg="red4", bg="white", font="msserif 18").pack()
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
@@ -572,17 +539,21 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 4 + 12 * 2 + 5 * 3 + 3 * 4 + 110, y=190)
-            Label(smf2, text=cust, fg="red4",
-                  bg="white", font="msserif 18").pack()
+            Label(smf2, text=cust, fg="red4", bg="white", font="msserif 18").pack()
 
         button = list()
         for i in range(tor):
-            button.append(Button(b_frame, font="mssherif 10",
-                                 text="Room "+str(i+1),
-                                 bg="white",
-                                 fg="red4",
-                                 width=10,
-                                 command=lambda x=i: roomdet(x+1)))
+            button.append(
+                Button(
+                    b_frame,
+                    font="mssherif 10",
+                    text="Room " + str(i + 1),
+                    bg="white",
+                    fg="red4",
+                    width=10,
+                    command=lambda x=i: roomdet(x + 1),
+                )
+            )
             sidebuttons.window_create("end", window=button[i])
             sidebuttons.insert("end", "\n")
 
