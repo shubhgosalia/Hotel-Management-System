@@ -11,6 +11,9 @@ conn = MySQLdb.connect(
 )
 cursor = conn.cursor()
 
+# connection = sqlite3.connect("./hotel.db")
+# cursor = connection.cursor()
+
 
 # total_rooms = cursor.execute("select count(*) from Room")
 # reserved_rooms = cursor.execute(
@@ -30,7 +33,7 @@ cursor = conn.cursor()
 # cursor.execute("create table Staff(role TEXT, name TEXT, phone_no TEXT, mail TEXT)")
 
 
-def roomStatus():
+def hotelStatus():
     connection = MySQLdb.connect(
         host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
     )
@@ -80,11 +83,22 @@ def staffStatus():
     return staff
 
 
+def roomStatus(roomNum):
+    connection = MySQLdb.connect(
+        host='localhost', database='hotel', user='root', password='pass')
+    cursor = connection.cursor()
+
+    str = "select * from Room where room_no= %d"
+    args = (roomNum)
+    cursor.execute(str % args)
+    room = cursor.fetchone()
+    return room
+
+
 # total_rooms = cursor.execute("select count(*) from Room")
 # reserved_rooms = cursor.execute(
 #     "select count(*) from Room where isReserved=1")
 # available_rooms = total_rooms - reserved_rooms
-# roomStatus()
 
 
 def addRoom(rno, underRen, roomType, ac, price):
@@ -202,7 +216,7 @@ def mainroot():
         label.image = img
         label.place(x=0, y=0)
 
-        lst = roomStatus()
+        lst = hotelStatus()
         print(lst)
 
         tor = lst[0]
@@ -324,6 +338,14 @@ def mainroot():
         redf1.pack_propagate(False)
 
     def showRooms():
+
+        connection = MySQLdb.connect(
+            host='localhost', database='hotel', user='root', password='pass')
+        cursor = connection.cursor()
+        cursor.execute("select room_no from Room")
+        cursor.fetchall()
+        tor = cursor.rowcount
+
         b_frame = Frame(root, height=400, width=1080, bg="gray91")
         b_frame.place(x=0, y=120 + 6 + 20 + 60 + 11)
         b_frame.pack_propagate(False)
@@ -342,6 +364,35 @@ def mainroot():
         sidebuttons.place(x=10, y=0)
 
         def roomdet(rno):
+
+            room = roomStatus(rno)
+            if(room[1]):
+                reserved = "Yes"
+                bookedBy = room[3]
+                date = room[7]
+                days = room[8]
+                cust = room[9]
+            else:
+                reserved = "No"
+                bookedBy = "-"
+                date = "-"
+                days = "-"
+                cust = "-"
+
+            if(room[2]):
+                renov = "Yes"
+            else:
+                renov = "No"
+
+            rtype = room[4]
+
+            if(room[5]):
+                ac = "Yes"
+            else:
+                ac = "No"
+
+            price = room[6]
+
             Label(
                 b_frame,
                 text="Room %s" % rno,
@@ -352,23 +403,31 @@ def mainroot():
             ).place(x=535, y=0)
 
             smf1 = Frame(b_frame, height=120, width=145, bg="white")
-            hline = Frame(b_frame, height=20, width=960, bg="red4")
+            hline = Frame(b_frame, height=10, width=960, bg="orange")
             hline.place(x=122, y=27)
             vline = Frame(b_frame, height=400, width=7, bg="lightsteelblue3")
             vline.place(x=122, y=0)
+
             tr = Label(
                 smf1,
-                text="Total Bed(s):",
+                text="Room Type:",
                 fg="white",
                 bg="red4",
                 width=100,
                 height=2,
                 font="msserif 15",
             )
-            tr.pack(side="top")
+            tr.pack()
             smf1.pack_propagate(False)
+<<<<<<< HEAD
             smf1.place(x=129 + 3, y=30)
             Label(smf1, text="1", fg="red4", bg="white", font="msserif 35").pack()
+=======
+            smf1.place(x=129 + 18, y=50)
+            Label(smf1, text=rtype, fg="red4",
+                  bg="white", font="msserif 22").pack()
+
+>>>>>>> 176e7d42b1a8aea4198adfc147b4ae548fae1f74
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
@@ -381,12 +440,20 @@ def mainroot():
             )
             tr.pack(side="top")
             smf2.pack_propagate(False)
+<<<<<<< HEAD
             smf2.place(x=140 * 2 + 5 + 3 * 2, y=30)
             Label(smf2, text="Yes", fg="red4", bg="white", font="msserif 35").pack()
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
+=======
+            smf2.place(x=140 * 2 + 5 + 3 * 2 + 20, y=50)
+            Label(smf2, text=ac, fg="red4",
+                  bg="white", font="msserif 18").pack()
+
+            smf2 = Frame(b_frame, height=120, width=175, bg="white")
+>>>>>>> 176e7d42b1a8aea4198adfc147b4ae548fae1f74
             tr = Label(
                 smf2,
-                text="TV Available?",
+                text="Under Renovation?",
                 fg="white",
                 bg="red4",
                 width=100,
@@ -395,12 +462,18 @@ def mainroot():
             )
             tr.pack(side="top")
             smf2.pack_propagate(False)
+<<<<<<< HEAD
             smf2.place(x=140 * 3 + 12 + 5 * 2 + 3 * 3, y=30)
             Label(smf2, text="Yes", fg="red4", bg="white", font="msserif 35").pack()
+=======
+            smf2.place(x=140 * 3 + 12 + 5 * 2 + 3 * 3 + 20, y=50)
+            Label(smf2, text=renov, fg="red4",
+                  bg="white", font="msserif 18").pack()
+>>>>>>> 176e7d42b1a8aea4198adfc147b4ae548fae1f74
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
-                text="  Wifi ?",
+                text="Price",
                 fg="white",
                 bg="red4",
                 width=100,
@@ -409,12 +482,18 @@ def mainroot():
             )
             tr.pack(side="top")
             smf2.pack_propagate(False)
+<<<<<<< HEAD
             smf2.place(x=140 * 4 + 12 * 2 + 5 * 3 + 3 * 4, y=30)
             Label(smf2, text="No", fg="red4", bg="white", font="msserif 35").pack()
+=======
+            smf2.place(x=140 * 4 + 12 * 2 + 5 * 3 + 3 * 4 + 50, y=50)
+            Label(smf2, text=price, fg="red4",
+                  bg="white", font="msserif 18").pack()
+>>>>>>> 176e7d42b1a8aea4198adfc147b4ae548fae1f74
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
-                text=" Price ?",
+                text=" Reserved?",
                 fg="white",
                 bg="red4",
                 width=100,
@@ -423,12 +502,36 @@ def mainroot():
             )
             tr.pack(side="top")
             smf2.pack_propagate(False)
+<<<<<<< HEAD
             smf2.place(x=140 * 5 + 12 * 3 + 5 * 4 + 3 * 5, y=30)
             Label(smf2, text="2500", fg="red4", bg="white", font="msserif 35").pack()
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
+=======
+            smf2.place(x=140 * 5 + 12 * 3 + 5 * 4 + 3 * 5 + 50, y=50)
+            Label(smf2, text=reserved, fg="red4",
+                  bg="white", font="msserif 18").pack()
+
+            smf1 = Frame(b_frame, height=120, width=175, bg="white")
+            tr = Label(
+                smf1,
+                text="Booked By:",
+                fg="white",
+                bg="red4",
+                width=100,
+                height=2,
+                font="msserif 15",
+            )
+            tr.pack()
+            smf1.pack_propagate(False)
+            smf1.place(x=129 + 18, y=190)
+            Label(smf1, text=bookedBy, fg="red4",
+                  bg="white", font="msserif 18").pack()
+
+            smf2 = Frame(b_frame, height=120, width=175, bg="white")
+>>>>>>> 176e7d42b1a8aea4198adfc147b4ae548fae1f74
             tr = Label(
                 smf2,
-                text="Reserved ?",
+                text="Date of booking",
                 fg="white",
                 bg="red4",
                 width=100,
@@ -437,239 +540,271 @@ def mainroot():
             )
             tr.pack(side="top")
             smf2.pack_propagate(False)
-            smf2.place(x=140 * 6 + 12 * 4 + 5 * 5 + 3 * 6, y=30)
-            p = "No"
-            Label(smf2, text=p, fg="red4", bg="white", font="msserif 35").pack()
+            smf2.place(x=140 * 2 + 5 + 3 * 2 + 50, y=190)
+            Label(smf2, text=date, fg="red4",
+                  bg="white", font="msserif 18").pack()
 
-        roomdet(1)
-        # b1 = Button(b_frame,font='mssherif 10', text="Room 1",bg='white',fg='cyan4',width=10,command=lambda:roomdet(1))
-        # sidebuttons.window_create("end",window=b)
+            smf2 = Frame(b_frame, height=120, width=175, bg="white")
+            tr = Label(
+                smf2,
+                text="Days of stay",
+                fg="white",
+                bg="red4",
+                width=100,
+                height=2,
+                font="msserif 15",
+            )
+            tr.pack(side="top")
+            smf2.pack_propagate(False)
+            smf2.place(x=140 * 3 + 12 + 5 * 2 + 3 * 3 + 80, y=190)
+            Label(smf2, text=days, fg="red4",
+                  bg="white", font="msserif 18").pack()
+            smf2 = Frame(b_frame, height=120, width=145, bg="white")
+            tr = Label(
+                smf2,
+                text="Total Persons",
+                fg="white",
+                bg="red4",
+                width=100,
+                height=2,
+                font="msserif 15",
+            )
+            tr.pack(side="top")
+            smf2.pack_propagate(False)
+            smf2.place(x=140 * 4 + 12 * 2 + 5 * 3 + 3 * 4 + 110, y=190)
+            Label(smf2, text=cust, fg="red4",
+                  bg="white", font="msserif 18").pack()
+
+        button = list()
+        for i in range(tor):
+            button.append(Button(b_frame, font="mssherif 10",
+                                 text="Room "+str(i+1),
+                                 bg="white",
+                                 fg="red4",
+                                 width=10,
+                                 command=lambda x=i: roomdet(x+1)))
+            sidebuttons.window_create("end", window=button[i])
+            sidebuttons.insert("end", "\n")
+
+        # b1 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 1",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(1),
+        # )
+        # b2 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 2",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(2),
+        # )
+        # b3 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 3",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(3),
+        # )
+        # b4 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 4",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(4),
+        # )
+        # b5 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 5",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(5),
+        # )
+        # b6 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 6",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(6),
+        # )
+        # b7 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 7",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(7),
+        # )
+        # b8 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 8",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(8),
+        # )
+        # b9 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 9",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(9),
+        # )
+        # b10 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 10",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(10),
+        # )
+        # b11 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 11",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(11),
+        # )
+        # b12 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 12",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(12),
+        # )
+        # b13 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 13",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(13),
+        # )
+        # b14 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 14",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(14),
+        # )
+        # b15 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 15",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(15),
+        # )
+        # b16 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 16",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(16),
+        # )
+        # b17 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 17",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(17),
+        # )
+        # b18 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 18",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(18),
+        # )
+        # b19 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 19",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(19),
+        # )
+        # b20 = Button(
+        #     b_frame,
+        #     font="mssherif 10",
+        #     text="Room 20",
+        #     bg="white",
+        #     fg="red4",
+        #     width=10,
+        #     command=lambda: roomdet(20),
+        # )
+        # sidebuttons.window_create("end", window=b1)
         # sidebuttons.insert("end", "\n")
-        """for i in range(1,21):
-	            b = Button(b_frame,font='mssherif 10', text="Room %s" %
-	                       i,bg='white',fg='cyan4',width=10,command=lambda:roomdet(i))
-	            sidebuttons.window_create("end", window=b)
-	            sidebuttons.insert("end", "\n")"""
-        sidebuttons.configure(state="disabled")
-        b1 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 1",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(1),
-        )
-        b2 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 2",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(2),
-        )
-        b3 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 3",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(3),
-        )
-        b4 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 4",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(4),
-        )
-        b5 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 5",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(5),
-        )
-        b6 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 6",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(6),
-        )
-        b7 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 7",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(7),
-        )
-        b8 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 8",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(8),
-        )
-        b9 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 9",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(9),
-        )
-        b10 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 10",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(10),
-        )
-        b11 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 11",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(11),
-        )
-        b12 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 12",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(12),
-        )
-        b13 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 13",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(13),
-        )
-        b14 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 14",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(14),
-        )
-        b15 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 15",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(15),
-        )
-        b16 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 16",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(16),
-        )
-        b17 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 17",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(17),
-        )
-        b18 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 18",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(18),
-        )
-        b19 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 19",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(19),
-        )
-        b20 = Button(
-            b_frame,
-            font="mssherif 10",
-            text="Room 20",
-            bg="white",
-            fg="red4",
-            width=10,
-            command=lambda: roomdet(20),
-        )
-        sidebuttons.window_create("end", window=b1)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b2)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b3)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b4)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b5)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b6)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b7)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b8)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b9)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b10)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b11)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b12)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b13)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b14)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b15)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b16)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b17)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b18)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b19)
-        sidebuttons.insert("end", "\n")
-        sidebuttons.window_create("end", window=b20)
+        # sidebuttons.window_create("end", window=b2)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b3)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b4)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b5)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b6)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b7)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b8)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b9)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b10)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b11)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b12)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b13)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b14)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b15)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b16)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b17)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b18)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b19)
+        # sidebuttons.insert("end", "\n")
+        # sidebuttons.window_create("end", window=b20)
 
     def reserve():
         b_frame = Frame(root, height=420, width=1080, bg="gray89")
@@ -1176,5 +1311,5 @@ def call_mainroot():
     mainroot()
 
 
-sroot.after(1000, call_mainroot)
+sroot.after(100, call_mainroot)
 mainloop()
