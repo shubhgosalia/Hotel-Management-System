@@ -1,31 +1,68 @@
+import MySQLdb
 from tkinter import *
 from PIL import ImageTk, Image
 from tkinter import ttk
 from tkinter import messagebox
-import sqlite3
+from datetime import date
+from random import randint
+import os
 
-import MySQLdb
+today = date.today()
+d1 = today.strftime("%d/%m/%Y")
+path = "F:\\PyProgramming\\Hotel-Management-System\\bills"
 
-conn = MySQLdb.connect(
-    host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
-)
-cursor = conn.cursor()
-
-# connection = sqlite3.connect("./hotel.db")
-# cursor = connection.cursor()
+x = randint(99, 400)
 
 
-# total_rooms = cursor.execute("select count(*) from Room")
-# reserved_rooms = cursor.execute(
-#     "select count(*) from Room where isReserved=1")
-# available_rooms = total_rooms - reserved_rooms
+def create_bill(date, days, fn, ln, nop, rno):
+    connection = MySQLdb.connect(
+        host="localhost", database="hotel", user="root", password="meetsql11"
+    )
+    cursor = connection.cursor()
 
-# print("total", total_rooms)
+    stri = "select price from Room where room_no= %d"
+    args = int(rno)
+    cursor.execute(stri % args)
+    price = cursor.fetchone()
+    p1 = int(price[0])
+    p2 = p1 * int(days)
+    p3 = 0.18 * p2
+    p4 = p2 + p3
+    global x
+    refno = str(x)
+    list0 = "\t\t\t\t\t\t\tReference.no :" + refno
+    list1 = (
+        "\n\n\t"
+        + "Room Number| Customer Name | Date of Booking | Days of Stay | Total Persons |\n"
+    )
+    list2 = "\t-----------------------------------------------------------------------------\n"
+    list3 = (
+        "\t"
+        + rno
+        + "          |  "
+        + fn
+        + " "
+        + ln
+        + "   |    "
+        + date
+        + "   |     "
+        + str(days)
+        + "        |     "
+        + str(nop)
+        + "         | \n"
+    )
+    list5 = "\n\n\n\t\t\t   " + "Price/Night       = Rs " + str(p1) + "/-" + "\n"
+    list6 = "\t\t\t   " + "Price for " + days + " days  = Rs " + str(p2) + "/-" + "\n"
+    list7 = "\t\t\t   " + "GST               = Rs " + str(p3) + "/-" "\n"
+    list8 = "\t\t\t   " + "GrandTotal=       = Rs " + str(p4) + "/-" + "\n"
+    bill = list0 + list1 + list2 + list3 + list5 + list6 + list7 + list8
+    return bill
+
+
+# create_bill("11/11/1111", "1", "meet", "gajra", "1", "1")
+
 
 # -----------------CONNECT DB--------------
-
-# connection = sqlite3.connect("./hotel.db")
-# cursor = connection.cursor()
 
 # cursor.execute(
 #   "create table Room(room_no integer PRIMARY KEY, isReserved BOOLEAN DEFAULT 0, underRenovation BOOLEAN DEFAULT 0, booked_by TEXT, room_type TEXT, AC_available BOOLEAN DEFAULT 0,  price NUMERIC, date_of_booking TEXT, days_of_stay INTEGER, no_of_customers NUMERIC)"
@@ -35,7 +72,7 @@ cursor = conn.cursor()
 
 def hotelStatus():
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
     cursor.execute("select room_no from Room")
@@ -72,7 +109,7 @@ def hotelStatus():
 def staffStatus():
     staff = []
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
     cursor.execute("select * from Staff")
@@ -89,9 +126,9 @@ def roomStatus(roomNum):
     )
     cursor = connection.cursor()
 
-    str = "select * from Room where room_no= %d"
+    stri = "select * from Room where room_no= %d"
     args = roomNum
-    cursor.execute(str % args)
+    cursor.execute(stri % args)
     room = cursor.fetchone()
     return room
 
@@ -105,14 +142,14 @@ def roomStatus(roomNum):
 def addRoom(rno, underRen, roomType, ac, price):
 
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
 
-    str = "insert into Room(room_no, underRenovation, room_type, AC_available, price) values('%d', '%d', '%s', '%d', '%d')"
+    stri = "insert into Room(room_no, underRenovation, room_type, AC_available, price) values('%d', '%d', '%s', '%d', '%d')"
     args = (rno, underRen, roomType, ac, price)
     try:
-        cursor.execute(str % args)
+        cursor.execute(stri % args)
         connection.commit()
         print("Room added")
     except (Exception) as error:
@@ -126,14 +163,16 @@ def addRoom(rno, underRen, roomType, ac, price):
 def addStaff(role, name, phone, email):
 
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
 
-    str = "insert into Staff(role, name, phone_no, mail) values('%s', '%s', '%s', '%s')"
+    stri = (
+        "insert into Staff(role, name, phone_no, mail) values('%s', '%s', '%s', '%s')"
+    )
     args = (role, name, phone, email)
     try:
-        cursor.execute(str % args)
+        cursor.execute(stri % args)
         connection.commit()
         print("Staff added")
 
@@ -153,12 +192,10 @@ def addStaff(role, name, phone, email):
 # addRoom(6, 1, "Standard", 0, 2500)
 # addRoom(7, 0, "Suite", 1, 6500)
 # addRoom(8, 0, "Deluxe", 1, 4500)
-
 # addStaff("Receptionist", "Pooja Verma", "9383555686", "Poojaverma@google.com")
 # addStaff("Restaurant", "Gordon Ramsey", "9323252566", "gordonramsey@google.com")
 # addStaff("Room Service", "Maya Bhatt", "8453256577", "mayabhatt@google.com")
 # addStaff("Manager", "Vijay Nath", "9457283456", "vijaynath@gmail.com")
-
 # -----------splash_screen-----------------
 sroot = Tk()
 sroot.minsize(height=516, width=1150)
@@ -218,7 +255,6 @@ def mainroot():
         label.place(x=0, y=0)
 
         lst = hotelStatus()
-        print(lst)
 
         tor = lst[0]
         rer = lst[1]
@@ -560,226 +596,6 @@ def mainroot():
             sidebuttons.window_create("end", window=button[i])
             sidebuttons.insert("end", "\n")
 
-        # b1 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 1",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(1),
-        # )
-        # b2 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 2",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(2),
-        # )
-        # b3 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 3",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(3),
-        # )
-        # b4 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 4",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(4),
-        # )
-        # b5 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 5",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(5),
-        # )
-        # b6 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 6",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(6),
-        # )
-        # b7 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 7",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(7),
-        # )
-        # b8 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 8",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(8),
-        # )
-        # b9 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 9",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(9),
-        # )
-        # b10 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 10",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(10),
-        # )
-        # b11 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 11",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(11),
-        # )
-        # b12 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 12",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(12),
-        # )
-        # b13 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 13",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(13),
-        # )
-        # b14 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 14",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(14),
-        # )
-        # b15 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 15",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(15),
-        # )
-        # b16 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 16",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(16),
-        # )
-        # b17 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 17",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(17),
-        # )
-        # b18 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 18",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(18),
-        # )
-        # b19 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 19",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(19),
-        # )
-        # b20 = Button(
-        #     b_frame,
-        #     font="mssherif 10",
-        #     text="Room 20",
-        #     bg="white",
-        #     fg="red4",
-        #     width=10,
-        #     command=lambda: roomdet(20),
-        # )
-        # sidebuttons.window_create("end", window=b1)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b2)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b3)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b4)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b5)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b6)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b7)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b8)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b9)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b10)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b11)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b12)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b13)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b14)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b15)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b16)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b17)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b18)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b19)
-        # sidebuttons.insert("end", "\n")
-        # sidebuttons.window_create("end", window=b20)
-
     def reserve():
         b_frame = Frame(root, height=420, width=1080, bg="gray89")
         path = "images/texture_bg.jpg"
@@ -798,25 +614,16 @@ def mainroot():
         fnf = Frame(b_frame, height=1, width=1)
         fn = Entry(fnf)
 
-        mnf = Frame(b_frame, height=1, width=1)
-        mn = Entry(mnf)
-
         lnf = Frame(b_frame, height=1, width=1)
         ln = Entry(lnf)
 
         fn.insert(0, "First Name *")
-        mn.insert(0, "Middle Name")
         ln.insert(0, "Last Name *")
 
         def on_entry_click1(event):
             if fn.get() == "First Name *":
                 fn.delete(0, END)
                 fn.insert(0, "")
-
-        def on_entry_click2(event):
-            if mn.get() == "Middle Name":
-                mn.delete(0, END)
-                mn.insert(0, "")
 
         def on_entry_click3(event):
             if ln.get() == "Last Name *":
@@ -827,27 +634,19 @@ def mainroot():
             if fn.get() == "":
                 fn.insert(0, "First Name *")
 
-        def on_exit2(event):
-            if mn.get() == "":
-                mn.insert(0, "Middle Name")
-
         def on_exit3(event):
             if ln.get() == "":
                 ln.insert(0, "Last Name *")
 
         fn.bind("<FocusIn>", on_entry_click1)
-        mn.bind("<FocusIn>", on_entry_click2)
         ln.bind("<FocusIn>", on_entry_click3)
         fn.bind("<FocusOut>", on_exit1)
-        mn.bind("<FocusOut>", on_exit2)
         ln.bind("<FocusOut>", on_exit3)
 
         fn.pack(ipady=4, ipadx=15)
-        mn.pack(ipady=4, ipadx=15)
         ln.pack(ipady=4, ipadx=15)
         fnf.place(x=20, y=42)
-        mnf.place(x=235, y=42)
-        lnf.place(x=450, y=42)
+        lnf.place(x=235, y=42)
 
         Label(
             b_frame, text="Contact Information", font="msserif 15", bg="gray93"
@@ -859,12 +658,8 @@ def mainroot():
         emf = Frame(b_frame, height=1, width=1)
         em = Entry(emf)
 
-        adf = Frame(b_frame, height=1, width=1)
-        ad = Entry(adf)
-
         cn.insert(0, "Contact Number *")
         em.insert(0, "Email *")
-        ad.insert(0, "Guest's Address *")
 
         def on_entry_click4(event):
             if cn.get() == "Contact Number *":
@@ -876,11 +671,6 @@ def mainroot():
                 em.delete(0, END)
                 em.insert(0, "")
 
-        def on_entry_click6(event):
-            if ad.get() == "Guest's Address *":
-                ad.delete(0, END)
-                ad.insert(0, "")
-
         def on_exit4(event):
             if cn.get() == "":
                 cn.insert(0, "Contact Number *")
@@ -889,81 +679,57 @@ def mainroot():
             if em.get() == "":
                 em.insert(0, "Email *")
 
-        def on_exit6(event):
-            if ad.get() == "":
-                ad.insert(0, "Guest's Address *")
-
         cn.bind("<FocusIn>", on_entry_click4)
         em.bind("<FocusIn>", on_entry_click5)
-        ad.bind("<FocusIn>", on_entry_click6)
+
         cn.bind("<FocusOut>", on_exit4)
         em.bind("<FocusOut>", on_exit5)
-        ad.bind("<FocusOut>", on_exit6)
 
         cn.pack(ipady=4, ipadx=15)
         em.pack(ipady=4, ipadx=15)
-        ad.pack(ipady=4, ipadx=15)
         cnf.place(x=20, y=130)
         emf.place(x=235, y=130)
-        adf.place(x=450, y=130)
 
         Label(
             b_frame, text="Reservation Information", font="msserif 15", bg="gray93"
         ).place(x=210, y=175)
 
-        nocf = Frame(b_frame, height=1, width=1)
-        noc = Entry(nocf)
-
-        noaf = Frame(b_frame, height=1, width=1)
-        noa = Entry(noaf)
+        nopf = Frame(b_frame, height=1, width=1)
+        nop = Entry(nopf)
 
         nodf = Frame(b_frame, height=1, width=1)
         nod = Entry(nodf)
 
-        noc.insert(0, "Number of Children *")
-        noa.insert(0, "Number of Adults *")
+        nop.insert(0, "Number of Persons *")
         nod.insert(0, "Number of Days of Stay *")
 
         def on_entry_click7(event):
-            if noc.get() == "Number of Children *":
-                noc.delete(0, END)
-                noc.insert(0, "")
+            if nop.get() == "Number of Persons *":
+                nop.delete(0, END)
+                nop.insert(0, "")
 
         def on_entry_click8(event):
-            if noa.get() == "Number of Adults *":
-                noa.delete(0, END)
-                noa.insert(0, "")
-
-        def on_entry_click9(event):
             if nod.get() == "Number of Days of Stay *":
                 nod.delete(0, END)
                 nod.insert(0, "")
 
         def on_exit7(event):
-            if noc.get() == "":
-                noc.insert(0, "Number of Children *")
+            if nop.get() == "":
+                nop.insert(0, "Number of Persons *")
 
         def on_exit8(event):
-            if noa.get() == "":
-                noa.insert(0, "Number of Adults *")
-
-        def on_exit9(event):
             if nod.get() == "":
                 nod.insert(0, "Number of Days of Stay *")
 
-        noc.bind("<FocusIn>", on_entry_click7)
-        noa.bind("<FocusIn>", on_entry_click8)
-        nod.bind("<FocusIn>", on_entry_click9)
-        noc.bind("<FocusOut>", on_exit7)
-        noa.bind("<FocusOut>", on_exit8)
-        nod.bind("<FocusOut>", on_exit9)
+        nop.bind("<FocusIn>", on_entry_click7)
+        nod.bind("<FocusIn>", on_entry_click8)
+        nop.bind("<FocusOut>", on_exit7)
+        nod.bind("<FocusOut>", on_exit8)
 
-        noc.pack(ipady=4, ipadx=15)
-        noa.pack(ipady=4, ipadx=15)
+        nop.pack(ipady=4, ipadx=15)
         nod.pack(ipady=4, ipadx=15)
-        nocf.place(x=20, y=220)
-        noaf.place(x=235, y=220)
-        nodf.place(x=450, y=220)
+        nopf.place(x=20, y=220)
+        nodf.place(x=235, y=220)
 
         roomnf = Frame(b_frame, height=1, width=1)
         roomn = Entry(roomnf)
@@ -1033,14 +799,120 @@ def mainroot():
         listofrooms.insert(END, "Rooms of Your Choice will appear Here")
         listofrooms.insert(END, "once you apply filter")
 
+        def booking():
+            if (
+                fn.get() == "First Name"
+                or ln.get() == "Last Name"
+                or cn.get() == "Contact Number *"
+                or em.get() == "Email"
+                or nop.get() == "Number of Persons *"
+                or nod.get() == "Number of Days of Stay *"
+                or roomn.get() == "Enter Room Number *"
+            ):
+                messagebox.showinfo("Incomplete", "Fill All the Fields marked by *")
+            else:
+                connection = MySQLdb.connect(
+                    host="localhost",
+                    database="hotel",
+                    user="root",
+                    password="meetsql11",
+                )
+                cursor = connection.cursor()
+                stri = "select isReserved,underRenovation from Room where room_no = %d"
+                args = int(roomn.get())
+                cursor.execute(stri % args)
+                temp = cursor.fetchone()
+                if temp[0] == 1:
+                    messagebox.showwarning(
+                        "Room is Reserved",
+                        "Room number " + roomn.get() + " is Reserved",
+                    )
+                elif temp[1] == 1:
+                    messagebox.showwarning(
+                        "Room is under renovation!",
+                        "Room number " + roomn.get() + " is under renovation",
+                    )
+                else:
+                    connection = MySQLdb.connect(
+                        host="localhost",
+                        database="hotel",
+                        user="root",
+                        password="meetsql11",
+                    )
+                    cursor = connection.cursor()
+                    stri = "update Room set isReserved=1,date_of_booking='%s',days_of_stay=%d,booked_by='%s',no_of_customers=%d where room_no=%d"
+                    args = (
+                        d1,
+                        int(nod.get()),
+                        fn.get() + " " + ln.get(),
+                        int(nop.get()),
+                        int(roomn.get()),
+                    )
+                    try:
+                        cursor.execute(stri % args)
+                        connection.commit()
+                    except (Exception) as error:
+                        print("Error while using MySQL table", error)
+                    finally:
+                        if connection:
+                            cursor.close()
+                            connection.close()
+
+                    messagebox.showinfo("Successful", "Room Booked successfully")
+                    ask = messagebox.askyesno(
+                        "Successful",
+                        "Room booked successfully.\nDo you want to print reciept ?",
+                    )
+                    if ask:
+                        global x
+                        refno = str(x)
+                        title = refno + ".txt"
+                        global path
+                        with open(os.path.join(path, title), "w") as file1:
+                            toFile = create_bill(
+                                d1,
+                                nod.get(),
+                                fn.get(),
+                                ln.get(),
+                                nop.get(),
+                                roomn.get(),
+                            )
+                            file1.write(toFile)
+                        messagebox.showinfo("Information", "Bill Generated")
+
+        def unreserve():
+            if roomn.get() == "Enter Room Number *" or "":
+                messagebox.showinfo("Incomplete", "Please enter room number")
+            else:
+                connection = MySQLdb.connect(
+                    host="localhost",
+                    database="hotel",
+                    user="root",
+                    password="meetsql11",
+                )
+                cursor = connection.cursor()
+                stri = "update Room set isReserved=0,date_of_booking=NULL,days_of_stay=NULL,booked_by=NULL,no_of_customers=NULL where room_no=%d"
+                args = int(roomn.get())
+                try:
+                    cursor.execute(stri % args)
+                    connection.commit()
+                except (Exception) as error:
+                    print("Error while using MySQL table", error)
+                finally:
+                    if connection:
+                        cursor.close()
+                        connection.close()
+                messagebox.showinfo("Successful", "Room unreserved!")
+
         Res = Button(
             b_frame,
             text="Reserve",
             bg="white",
             fg="red4",
             font="timenewroman 11",
-            activebackground="green",
-        ).place(x=235, y=270)
+            command=booking,
+        )
+        Res.place(x=235, y=270)
 
         unres = Button(
             b_frame,
@@ -1048,17 +920,17 @@ def mainroot():
             bg="white",
             fg="red4",
             font="timenewroman 11",
-            activebackground="green",
-        ).place(x=327, y=270)
+            command=unreserve,
+        )
+        unres.place(x=327, y=270)
 
-        findrooms = Button(
-            b_frame,
-            text="Find Rooms",
-            bg="white",
-            fg="red4",
-            font="timenewroman 9",
-            activebackground="green",
-        ).place(x=830, y=155)
+        # findrooms = Button(
+        #     b_frame,
+        #     text="Find Rooms",
+        #     bg="white",
+        #     fg="red4",
+        #     font="timenewroman 9",
+        # ).place(x=830, y=155)
 
         scrollbar = Scrollbar(b_frame, orient="vertical")
         scrollbar.config(command=listofrooms.yview)
