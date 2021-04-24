@@ -7,7 +7,7 @@ import sqlite3
 import MySQLdb
 
 conn = MySQLdb.connect(
-    host='localhost', database='hotel', user='root', password='pass')
+    host='localhost', database='hotel', user='root', password='meetsql11')
 cursor = conn.cursor()
 
 # connection = sqlite3.connect("./hotel.db")
@@ -34,7 +34,7 @@ cursor = conn.cursor()
 
 def hotelStatus():
     connection = MySQLdb.connect(
-        host='localhost', database='hotel', user='root', password='pass')
+        host='localhost', database='hotel', user='root', password='meetsql11')
     cursor = connection.cursor()
     cursor.execute("select room_no from Room")
     cursor.fetchall()
@@ -63,7 +63,7 @@ def hotelStatus():
 def staffStatus():
     staff = []
     connection = MySQLdb.connect(
-        host='localhost', database='hotel', user='root', password='pass')
+        host='localhost', database='hotel', user='root', password='meetsql11')
     cursor = connection.cursor()
     cursor.execute("select * from Staff")
     row = cursor.fetchone()
@@ -75,7 +75,7 @@ def staffStatus():
 
 def roomStatus(roomNum):
     connection = MySQLdb.connect(
-        host='localhost', database='hotel', user='root', password='pass')
+        host='localhost', database='hotel', user='root', password='meetsql11')
     cursor = connection.cursor()
 
     str = "select * from Room where room_no= %d"
@@ -94,7 +94,7 @@ def roomStatus(roomNum):
 def addRoom(rno, underRen, roomType, ac, price):
 
     connection = MySQLdb.connect(
-        host='localhost', database='hotel', user='root', password='pass')
+        host='localhost', database='hotel', user='root', password='meetsql11')
     cursor = connection.cursor()
 
     str = "insert into Room(room_no, underRenovation, room_type, AC_available, price) values('%d', '%d', '%s', '%d', '%d')"
@@ -114,7 +114,7 @@ def addRoom(rno, underRen, roomType, ac, price):
 def addStaff(role, name, phone, email):
 
     connection = MySQLdb.connect(
-        host='localhost', database='hotel', user='root', password='pass')
+        host='localhost', database='hotel', user='root', password='meetsql11')
     cursor = connection.cursor()
 
     str = "insert into Staff(role, name, phone_no, mail) values('%s', '%s', '%s', '%s')"
@@ -320,7 +320,7 @@ def mainroot():
     def showRooms():
 
         connection = MySQLdb.connect(
-            host='localhost', database='hotel', user='root', password='pass')
+            host='localhost', database='hotel', user='root', password='meetsql11')
         cursor = connection.cursor()
         cursor.execute("select room_no from Room")
         cursor.fetchall()
