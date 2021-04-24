@@ -26,10 +26,10 @@ cursor = conn.cursor()
 # connection = sqlite3.connect("./hotel.db")
 # cursor = connection.cursor()
 
-# cursor.execute("create table Room(room_no integer PRIMARY KEY, isReserved BOOLEAN DEFAULT 0, underRenovation BOOLEAN DEFAULT 0, booked_by TEXT, room_type TEXT, AC_available BOOLEAN DEFAULT 0,  price NUMERIC, date_of_booking TEXT, days_of_stay INTEGER, no_of_customers NUMERIC)")
-
 # cursor.execute(
-#     "create table Staff(role TEXT, name TEXT, phone_no TEXT, mail TEXT)")
+#   "create table Room(room_no integer PRIMARY KEY, isReserved BOOLEAN DEFAULT 0, underRenovation BOOLEAN DEFAULT 0, booked_by TEXT, room_type TEXT, AC_available BOOLEAN DEFAULT 0,  price NUMERIC, date_of_booking TEXT, days_of_stay INTEGER, no_of_customers NUMERIC)"
+# )
+# cursor.execute("create table Staff(role TEXT, name TEXT, phone_no TEXT, mail TEXT)")
 
 
 def hotelStatus():
@@ -57,7 +57,14 @@ def hotelStatus():
 
     availableRooms = totalRooms - reservedRooms
 
-    return [totalRooms, reservedRooms, availableRooms, totalStaff, totalCustomers, renovRooms]
+    return [
+        totalRooms,
+        reservedRooms,
+        availableRooms,
+        totalStaff,
+        totalCustomers,
+        renovRooms,
+    ]
 
 
 def staffStatus():
@@ -67,7 +74,7 @@ def staffStatus():
     cursor = connection.cursor()
     cursor.execute("select * from Staff")
     row = cursor.fetchone()
-    while(row is not None):
+    while row is not None:
         staff.append(row)
         row = cursor.fetchone()
     return staff
@@ -79,7 +86,7 @@ def roomStatus(roomNum):
     cursor = connection.cursor()
 
     str = "select * from Room where room_no= %d"
-    args = (roomNum)
+    args = roomNum
     cursor.execute(str % args)
     room = cursor.fetchone()
     return room
@@ -106,7 +113,7 @@ def addRoom(rno, underRen, roomType, ac, price):
     except (Exception) as error:
         print("Error while using MySQL table", error)
     finally:
-        if(connection):
+        if connection:
             cursor.close()
             connection.close()
 
@@ -127,16 +134,24 @@ def addStaff(role, name, phone, email):
     except (Exception) as error:
         print("Error while using MySQL table", error)
     finally:
-        if(connection):
+        if connection:
             cursor.close()
             connection.close()
 
 
-# addRoom(1,0,Deluxe, 1, 4500)
-# addStaff("Receptionist", "Pooja Verma", "9383555686", "Poojaverma@google.com")
-#addStaff("Restaurant", "Gordon Ramsey", "9323252566", "gordonramsey@google.com")
-#addStaff("Room Service", "Maya Bhatt", "8453256577", "mayabhatt@google.com")
+# addRoom(1, 0, "Deluxe", 1, 4500)
+# addRoom(2, 0, "Deluxe", 1, 4500)
+# addRoom(3, 1, "Standard", 0, 2500)
+# addRoom(4, 1, "Standard", 0, 2500)
+# addRoom(5, 0, "Suite", 1, 6500)
+# addRoom(6, 1, "Standard", 0, 2500)
+# addRoom(7, 0, "Suite", 1, 6500)
+# addRoom(8, 0, "Deluxe", 1, 4500)
 
+# addStaff("Receptionist", "Pooja Verma", "9383555686", "Poojaverma@google.com")
+# addStaff("Restaurant", "Gordon Ramsey", "9323252566", "gordonramsey@google.com")
+# addStaff("Room Service", "Maya Bhatt", "8453256577", "mayabhatt@google.com")
+# addStaff("Manager", "Vijay Nath", "9457283456", "vijaynath@gmail.com")
 
 # -----------splash_screen-----------------
 sroot = Tk()
@@ -346,7 +361,7 @@ def mainroot():
         def roomdet(rno):
 
             room = roomStatus(rno)
-            if(room[1]):
+            if room[1]:
                 reserved = "Yes"
                 bookedBy = room[3]
                 date = room[7]
@@ -359,14 +374,14 @@ def mainroot():
                 days = "-"
                 cust = "-"
 
-            if(room[2]):
+            if room[2]:
                 renov = "Yes"
             else:
                 renov = "No"
 
             rtype = room[4]
 
-            if(room[5]):
+            if room[5]:
                 ac = "Yes"
             else:
                 ac = "No"
@@ -416,8 +431,7 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 2 + 5 + 3 * 2 + 20, y=50)
-            Label(smf2, text=ac, fg="red4",
-                  bg="white", font="msserif 18").pack()
+            Label(smf2, text=ac, fg="red4", bg="white", font="msserif 18").pack()
 
             smf2 = Frame(b_frame, height=120, width=175, bg="white")
             tr = Label(
@@ -530,12 +544,17 @@ def mainroot():
 
         button = list()
         for i in range(tor):
-            button.append(Button(b_frame, font="mssherif 10",
-                                 text="Room "+str(i+1),
-                                 bg="white",
-                                 fg="red4",
-                                 width=10,
-                                 command=lambda x=i: roomdet(x+1)))
+            button.append(
+                Button(
+                    b_frame,
+                    font="mssherif 10",
+                    text="Room " + str(i + 1),
+                    bg="white",
+                    fg="red4",
+                    width=10,
+                    command=lambda x=i: roomdet(x + 1),
+                )
+            )
             sidebuttons.window_create("end", window=button[i])
             sidebuttons.insert("end", "\n")
 
@@ -1083,11 +1102,15 @@ def mainroot():
             x=60, y=37
         )
         Label(
-            emp1inf, text="Phone : "+employ1[2], bg="white", fg="Grey", font="msserif 10"
+            emp1inf,
+            text="Phone : " + employ1[2],
+            bg="white",
+            fg="Grey",
+            font="msserif 10",
         ).place(x=60, y=59)
         Label(
             emp1inf,
-            text="Mail : "+employ1[3],
+            text="Mail : " + employ1[3],
             bg="white",
             fg="Grey",
             font="msserif 10",
@@ -1109,11 +1132,15 @@ def mainroot():
             x=45, y=37
         )
         Label(
-            emp1inf, text="Phone : "+employ2[2], bg="white", fg="Grey", font="msserif 10"
+            emp1inf,
+            text="Phone : " + employ2[2],
+            bg="white",
+            fg="Grey",
+            font="msserif 10",
         ).place(x=45, y=59)
         Label(
             emp1inf,
-            text="Mail : "+employ2[3],
+            text="Mail : " + employ2[3],
             bg="white",
             fg="Grey",
             font="msserif 10",
@@ -1135,11 +1162,15 @@ def mainroot():
             x=72, y=37
         )
         Label(
-            emp1inf, text="Phone : "+employ3[2], bg="white", fg="Grey", font="msserif 10"
+            emp1inf,
+            text="Phone : " + employ3[2],
+            bg="white",
+            fg="Grey",
+            font="msserif 10",
         ).place(x=72, y=59)
         Label(
             emp1inf,
-            text="Mail : "+employ3[3],
+            text="Mail : " + employ3[3],
             bg="white",
             fg="Grey",
             font="msserif 10",
@@ -1161,11 +1192,15 @@ def mainroot():
             x=55, y=37
         )
         Label(
-            emp1inf, text="Phone : "+employ4[2], bg="white", fg="Grey", font="msserif 10"
+            emp1inf,
+            text="Phone : " + employ4[2],
+            bg="white",
+            fg="Grey",
+            font="msserif 10",
         ).place(x=55, y=59)
         Label(
             emp1inf,
-            text="Mail : "+employ4[3],
+            text="Mail : " + employ4[3],
             bg="white",
             fg="Grey",
             font="msserif 10",
