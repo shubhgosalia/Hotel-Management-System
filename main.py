@@ -85,7 +85,7 @@ def staffStatus():
 
 def roomStatus(roomNum):
     connection = MySQLdb.connect(
-        host="localhost", database="hotel", user="root", password="pass"
+        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
     )
     cursor = connection.cursor()
 
@@ -341,7 +341,10 @@ def mainroot():
     def showRooms():
 
         connection = MySQLdb.connect(
-            host="localhost", database="hotel", user="root", password="pass"
+            host="localhost",
+            database="hotel_manage",
+            user="root",
+            password="Shubh@2001",
         )
         cursor = connection.cursor()
         cursor.execute("select room_no from Room")
