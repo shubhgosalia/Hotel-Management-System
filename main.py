@@ -879,13 +879,13 @@ def mainroot():
         )
         unres.place(x=327, y=270)
 
-        findrooms = Button(
-            b_frame,
-            text="Find Rooms",
-            bg="white",
-            fg="red4",
-            font="timenewroman 9",
-        ).place(x=830, y=155)
+        # findrooms = Button(
+        #     b_frame,
+        #     text="Find Rooms",
+        #     bg="white",
+        #     fg="red4",
+        #     font="timenewroman 9",
+        # ).place(x=830, y=155)
 
         scrollbar = Scrollbar(b_frame, orient="vertical")
         scrollbar.config(command=listofrooms.yview)
