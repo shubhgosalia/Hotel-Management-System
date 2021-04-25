@@ -10,7 +10,7 @@ import os
 
 today = date.today()
 d1 = today.strftime("%d/%m/%Y")
-path = "C:\\Users\\Shubh\\Hotel-Management-System\\bills"
+path = os.getcwd() + "\\bills"
 
 x = randint(99, 400)
 
@@ -65,12 +65,12 @@ def create_bill(date, days, fn, ln, nop, rno):
 
 # -----------------CONNECT DB--------------
 # connection = MySQLdb.connect(
-#   host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+#     host="localhost", database="hotel", user="root", password="pass"
 # )
 # cursor = connection.cursor()
 
 # cursor.execute(
-#    "create table Room(room_no integer PRIMARY KEY, isReserved BOOLEAN DEFAULT 0, underRenovation BOOLEAN DEFAULT 0, booked_by TEXT, room_type TEXT, AC_available TEXT,  price NUMERIC, date_of_booking TEXT, days_of_stay INTEGER, no_of_customers NUMERIC)"
+#     "create table Room(room_no integer PRIMARY KEY, isReserved BOOLEAN DEFAULT 0, underRenovation BOOLEAN DEFAULT 0, booked_by TEXT, room_type TEXT, AC_available TEXT,  price NUMERIC, date_of_booking TEXT, days_of_stay INTEGER, no_of_customers NUMERIC)"
 # )
 # cursor.execute("create table Staff(role TEXT, name TEXT, phone_no TEXT, mail TEXT)")
 
@@ -138,12 +138,6 @@ def roomStatus(roomNum):
     return room
 
 
-# total_rooms = cursor.execute("select count(*) from Room")
-# reserved_rooms = cursor.execute(
-#     "select count(*) from Room where isReserved=1")
-# available_rooms = total_rooms - reserved_rooms
-
-
 def addRoom(rno, underRen, roomType, ac, price):
 
     connection = MySQLdb.connect(
@@ -190,13 +184,15 @@ def addStaff(role, name, phone, email):
 
 
 # addRoom(1, 0, "Deluxe", "Yes", 4500)
-# addRoom(2, 0, "Deluxe", "Yes", 4500)
-# addRoom(3, 1, "Standard", "No", 2500)
+# addRoom(2, 0, "Deluxe", "No", 4500)
+# addRoom(3, 1, "Standard", "Yes", 3500)
 # addRoom(4, 1, "Standard", "No", 2500)
 # addRoom(5, 0, "Suite", "Yes", 6500)
-# addRoom(6, 1, "Standard", "No", 2500)
+# addRoom(6, 1, "Standard", "Yes", 3500)
 # addRoom(7, 0, "Suite", "Yes", 6500)
 # addRoom(8, 0, "Deluxe", "No", 4500)
+# addRoom(9, 0, "Deluxe", "Yes", 5500)
+# addRoom(10, 0, "Deluxe", "No", 4500)
 # addStaff("Receptionist", "Pooja Verma", "9383555686", "Poojaverma@google.com")
 # addStaff("Restaurant", "Gordon Ramsey", "9323252566", "gordonramsey@google.com")
 # addStaff("Room Service", "Maya Bhatt", "8453256577", "mayabhatt@google.com")
@@ -383,9 +379,9 @@ def mainroot():
 
         connection = MySQLdb.connect(
             host="localhost",
-            database="hotel_manage",
+            database="hotel",
             user="root",
-            password="Shubh@2001",
+            password="pass",
         )
         cursor = connection.cursor()
         cursor.execute("select room_no from Room")
@@ -432,10 +428,7 @@ def mainroot():
 
             rtype = room[4]
 
-            if room[5]:
-                ac = "Yes"
-            else:
-                ac = "No"
+            ac = room[5]
 
             price = room[6]
 
@@ -763,7 +756,7 @@ def mainroot():
         Label(b_frame, text="Room Typ.:", bg="gray93", font="17").place(x=730, y=50)
         nb = ttk.Combobox(
             b_frame,
-            values=["please select...", "standard", "deluxe", "super deluxe", "suite"],
+            values=["please select...", "standard", "deluxe", "suite"],
             state="readonly",
             width=22,
         )
@@ -771,35 +764,16 @@ def mainroot():
         nb.current(0)
 
         Label(b_frame, text="AC :", font="17", bg="gray93").place(x=792, y=75)
-        ac = ttk.Combobox(
+        acf = ttk.Combobox(
             b_frame,
             values=["please select...", "Yes", "No"],
             state="readonly",
             width=22,
         )
-        ac.place(x=840, y=75)
-        ac.current(0)
+        acf.place(x=840, y=75)
+        acf.current(0)
 
-        # Label(b_frame, text="TV :", font="17", bg="gray93").place(x=732, y=100)
-        # tv = ttk.Combobox(
-        # b_frame,
-        # values=["please select...", "Yes", "No"],
-        # state="readonly",
-        # width=22,
-        # )
-        # tv.place(x=830, y=100)
-        #  tv.current(0)
-
-        # Label(b_frame, text="Wifi :", font="17", bg="gray93").place(x=732, y=125)
-        # wifi = ttk.Combobox(
-        #      b_frame,
-        #     values=["please select...", "Yes", "No"],
-        #     state="readonly",
-        #     width=22,
-        # )
-        # wifi.place(x=830, y=125)
-        # wifi.current(0)
-        listofrooms = Listbox(b_frame, height=6, width=36)
+        listofrooms = Listbox(b_frame, height=6, width=39)
         listofrooms.place(x=775, y=190)
         listofrooms.insert(END, "Rooms of Your Choice will appear Here")
         listofrooms.insert(END, "once you apply filter")
@@ -807,29 +781,34 @@ def mainroot():
         def findrooms():
             connection = MySQLdb.connect(
                 host="localhost",
-                database="hotel_manage",
+                database="hotel",
                 user="root",
-                password="Shubh@2001",
+                password="pass",
             )
             cursor = connection.cursor()
+            stri = "select room_no,price,isReserved from Room where room_type=%s and AC_available=%s order by price asc"
+            args = (nb.get(), acf.get())
 
-            sql = "select room_no,price,isReserved from room where room_type=%s and Ac_available=%s order by price asc "
-            adr = (
-                nb.get(),
-                ac.get(),
-            )
-
-            cursor.execute(sql, adr)
-
+            cursor.execute(stri, args)
             x = cursor.fetchall()
             listofrooms.delete(0, END)
-            if x == []:
-                listofrooms.insert(END, "No matching Found")
-
-            for i in x:
-                listofrooms.insert(
-                    END, "Room Number " + str(i[0]) + " - Price - " + str(i[1])
-                )
+            if len(x) == 0:
+                listofrooms.insert(END, "No Rooms Found!")
+            else:
+                for i in x:
+                    if i[2]:
+                        b = "Yes"
+                    else:
+                        b = "No"
+                    listofrooms.insert(
+                        END,
+                        "Room No. -"
+                        + str(i[0])
+                        + " - Price - "
+                        + str(i[1])
+                        + " - booked - "
+                        + b,
+                    )
 
         findrooms = Button(
             b_frame,
@@ -839,7 +818,8 @@ def mainroot():
             font="timenewroman 9",
             activebackground="green",
             command=findrooms,
-        ).place(x=850, y=155)
+        )
+        findrooms.place(x=850, y=155)
 
         scrollbar = Scrollbar(b_frame, orient="vertical")
         scrollbar.config(command=listofrooms.yview)
@@ -863,10 +843,36 @@ def mainroot():
             ):
                 messagebox.showinfo("Incomplete", "Fill All the Fields marked by *")
 
+            # 1) Begins with 6 or 7 or 8 or 9. Then contains 9 digits
+            elif re.search(r"^[6-9]\d{9}$", cn.get()) == None:
+                messagebox.showinfo("Incomplete", "Enter valid mobile number!")
+
+            elif re.search(regex, em.get()) == None:
+                messagebox.showinfo("Incomplete", "Enter valid Email ID!")
             else:
+                connection = MySQLdb.connect(
+                    host="localhost",
+                    database="hotel_manage",
+                    user="root",
+                    password="Shubh@2001",
+                )
+                cursor = connection.cursor()
+                stri = "select isReserved,underRenovation from Room where room_no = %d"
+                args = int(roomn.get())
+                cursor.execute(stri % args)
+                temp = cursor.fetchone()
+                if temp[0] == 1:
+                    messagebox.showwarning(
+                        "Room is Reserved",
+                        "Room number " + roomn.get() + " is Reserved",
+                    )
 
-                if re.search(regex, em.get()):
-
+                elif temp[1] == 1:
+                    messagebox.showwarning(
+                        "Room is under renovation!",
+                        "Room number " + roomn.get() + " is under renovation",
+                    )
+                else:
                     connection = MySQLdb.connect(
                         host="localhost",
                         database="hotel_manage",
@@ -874,72 +880,45 @@ def mainroot():
                         password="Shubh@2001",
                     )
                     cursor = connection.cursor()
-                    stri = (
-                        "select isReserved,underRenovation from Room where room_no = %d"
+                    stri = "update Room set isReserved=1,date_of_booking='%s',days_of_stay=%d,booked_by='%s',no_of_customers=%d where room_no=%d"
+                    args = (
+                        d1,
+                        int(nod.get()),
+                        fn.get() + " " + ln.get(),
+                        int(nop.get()),
+                        int(roomn.get()),
                     )
-                    args = int(roomn.get())
-                    cursor.execute(stri % args)
-                    temp = cursor.fetchone()
-                    if temp[0] == 1:
-                        messagebox.showwarning(
-                            "Room is Reserved",
-                            "Room number " + roomn.get() + " is Reserved",
-                        )
+                    try:
+                        cursor.execute(stri % args)
+                        connection.commit()
+                    except (Exception) as error:
+                        print("Error while using MySQL table", error)
+                    finally:
+                        if connection:
+                            cursor.close()
+                            connection.close()
 
-                    elif temp[1] == 1:
-                        messagebox.showwarning(
-                            "Room is under renovation!",
-                            "Room number " + roomn.get() + " is under renovation",
-                        )
-                    else:
-                        connection = MySQLdb.connect(
-                            host="localhost",
-                            database="hotel_manage",
-                            user="root",
-                            password="Shubh@2001",
-                        )
-                        cursor = connection.cursor()
-                        stri = "update Room set isReserved=1,date_of_booking='%s',days_of_stay=%d,booked_by='%s',no_of_customers=%d where room_no=%d"
-                        args = (
-                            d1,
-                            int(nod.get()),
-                            fn.get() + " " + ln.get(),
-                            int(nop.get()),
-                            int(roomn.get()),
-                        )
-                        try:
-                            cursor.execute(stri % args)
-                            connection.commit()
-                        except (Exception) as error:
-                            print("Error while using MySQL table", error)
-                        finally:
-                            if connection:
-                                cursor.close()
-                                connection.close()
-
-                        messagebox.showinfo("Successful", "Room Booked successfully")
-                        ask = messagebox.askyesno(
-                            "Successful",
-                            "Room booked successfully.\nDo you want to print reciept ?",
-                        )
-                        if ask:
-                            global x
-                            refno = str(x)
-                            title = refno + ".txt"
-                            global path
-                            with open(os.path.join(path, title), "w") as file1:
-                                toFile = create_bill(
-                                    d1,
-                                    nod.get(),
-                                    fn.get(),
-                                    ln.get(),
-                                    nop.get(),
-                                    roomn.get(),
-                                )
-                                file1.write(toFile)
-                            messagebox.showinfo("Information", "Bill Generated")
-                else:
-                    messagebox.showinfo("Incomplete", "Email Not Valid!")
+                    messagebox.showinfo("Successful", "Room Booked successfully")
+                    ask = messagebox.askyesno(
+                        "Successful",
+                        "Room booked successfully.\nDo you want to print reciept ?",
+                    )
+                    if ask:
+                        global x
+                        refno = str(x)
+                        title = refno + ".txt"
+                        global path
+                        with open(os.path.join(path, title), "w") as file1:
+                            toFile = create_bill(
+                                d1,
+                                nod.get(),
+                                fn.get(),
+                                ln.get(),
+                                nop.get(),
+                                roomn.get(),
+                            )
+                            file1.write(toFile)
+                        messagebox.showinfo("Information", "Bill Generated")
 
         def unreserve():
             if roomn.get() == "Enter Room Number *" or "":
@@ -984,14 +963,6 @@ def mainroot():
             command=unreserve,
         )
         unres.place(x=327, y=270)
-
-        # findrooms = Button(
-        #     b_frame,
-        #     text="Find Rooms",
-        #     bg="white",
-        #     fg="red4",
-        #     font="timenewroman 9",
-        # ).place(x=830, y=155)
 
         scrollbar = Scrollbar(b_frame, orient="vertical")
         scrollbar.config(command=listofrooms.yview)
@@ -1218,5 +1189,5 @@ def call_mainroot():
     mainroot()
 
 
-sroot.after(100, call_mainroot)
+sroot.after(3000, call_mainroot)
 mainloop()
