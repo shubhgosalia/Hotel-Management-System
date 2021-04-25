@@ -10,7 +10,7 @@ import os
 
 today = date.today()
 d1 = today.strftime("%d/%m/%Y")
-path = "F:\\PyProgramming\\Hotel-Management-System\\bills"
+path = "C:\\Users\\Shubh\\Hotel-Management-System\\bills"
 
 x = randint(99, 400)
 
