@@ -10,3 +10,11 @@
 <p>5. Check hotel status like available rooms, no. of staff, total customers which gets dynamically updated</p>
 <p>6. On successfull booking, bill can be generated</p>
 
+-------------------------------------------------------------------------------------------------------
+<h3>Installation</h3>
+<ul>
+  <li>install dependencies</li>
+</ul>
+```
+$ pip install -r requirements.txt
+```
