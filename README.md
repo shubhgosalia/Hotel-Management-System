@@ -15,7 +15,7 @@
 <ul>
   <li>install dependencies</li>
 </ul>
+
 ```
 $ pip install -r requirements.txt
-
 ```
