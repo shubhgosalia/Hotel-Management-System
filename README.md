@@ -3,11 +3,11 @@
 
 ------------------------------------------------------------------------------------------------------
 <h3>Functionalities</h3>
-
+<hr/>
 <ol>
 <li>Book a room if available or is not under renovation</li>
-<li>Filter rooms as per requirementsli>
+<li>Filter rooms as per requirements</li>
 <li>Check room info and status</li>
-<li>Check hotel status like available rooms, no. of staff, total customers which get dynamically updated</li>
+<li>Check hotel status like available rooms, no. of staff, total customers which gets dynamically updated</li>
 <li>On successfull booking, bill can be generated</li>
 </ol>
