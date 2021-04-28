@@ -1,0 +1,9 @@
+room_no,isReserved,underRenovation,booked_by,room_type,AC_available,price,date_of_booking,days_of_stay,no_of_customers
+1,0,0,NULL,Deluxe,Yes,4500,NULL,NULL,NULL
+2,0,0,NULL,Deluxe,Yes,4500,NULL,NULL,NULL
+3,0,1,NULL,Standard,No,2500,NULL,NULL,NULL
+4,0,1,NULL,Standard,No,2500,NULL,NULL,NULL
+5,1,0,"meet gajra",Suite,Yes,6500,25/04/2021,4,4
+6,0,1,NULL,Standard,No,2500,NULL,NULL,NULL
+7,0,0,NULL,Suite,Yes,6500,NULL,NULL,NULL
+8,0,0,NULL,Deluxe,No,4500,NULL,NULL,NULL

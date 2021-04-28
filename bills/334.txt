@@ -1,0 +1,12 @@
+							Reference.no :334
+
+	Room Number| Customer Name | Date of Booking | Days of Stay | Total Persons |
+	-----------------------------------------------------------------------------
+	5          |  meet gajra   |    25/04/2021   |     4        |     4         | 
+
+
+
+			   Price/Night       = Rs 6500/-
+			   Price for 4 days  = Rs 26000/-
+			   GST               = Rs 4680.0/-
+			   GrandTotal=       = Rs 30680.0/-

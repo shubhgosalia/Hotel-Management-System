@@ -10,14 +10,14 @@ import os
 
 today = date.today()
 d1 = today.strftime("%d/%m/%Y")
-path = os.getcwd()+"\\bills"
+path = os.getcwd() + "\\bills"
 
 x = randint(99, 400)
 
 
 def create_bill(date, days, fn, ln, nop, rno):
     connection = MySQLdb.connect(
-        host="localhost", database="hotel", user="root", password="meetsql11"
+        host="localhost", database="hotel", user="root", password="pass"
     )
     cursor = connection.cursor()
 
@@ -67,7 +67,7 @@ def create_bill(date, days, fn, ln, nop, rno):
 
 # -----------------CONNECT DB--------------
 # connection = MySQLdb.connect(
-#     host="localhost", database="hotel", user="root", password="meetsql11"
+#     host="localhost", database="hotel", user="root", password="pass"
 # )
 # cursor = connection.cursor()
 
@@ -79,7 +79,7 @@ def create_bill(date, days, fn, ln, nop, rno):
 
 def hotelStatus():
     connection = MySQLdb.connect(
-        host="localhost", database="hotel", user="root", password="meetsql11"
+        host="localhost", database="hotel", user="root", password="pass"
     )
     cursor = connection.cursor()
     cursor.execute("select room_no from Room")
@@ -116,7 +116,7 @@ def hotelStatus():
 def staffStatus():
     staff = []
     connection = MySQLdb.connect(
-        host="localhost", database="hotel", user="root", password="meetsql11"
+        host="localhost", database="hotel", user="root", password="pass"
     )
     cursor = connection.cursor()
     cursor.execute("select * from Staff")
@@ -129,7 +129,7 @@ def staffStatus():
 
 def roomStatus(roomNum):
     connection = MySQLdb.connect(
-        host="localhost", database="hotel", user="root", password="meetsql11"
+        host="localhost", database="hotel", user="root", password="pass"
     )
     cursor = connection.cursor()
 
@@ -143,7 +143,7 @@ def roomStatus(roomNum):
 def addRoom(rno, underRen, roomType, ac, price):
 
     connection = MySQLdb.connect(
-        host="localhost", database="hotel", user="root", password="meetsql11"
+        host="localhost", database="hotel", user="root", password="pass"
     )
     cursor = connection.cursor()
 
@@ -152,7 +152,7 @@ def addRoom(rno, underRen, roomType, ac, price):
     try:
         cursor.execute(stri % args)
         connection.commit()
-        print("Room added")
+        messagebox.showinfo("success", "Room successfully added!")
     except (Exception) as error:
         print("Error while using MySQL table", error)
     finally:
@@ -164,7 +164,7 @@ def addRoom(rno, underRen, roomType, ac, price):
 def addStaff(role, name, phone, email):
 
     connection = MySQLdb.connect(
-        host="localhost", database="hotel", user="root", password="meetsql11"
+        host="localhost", database="hotel", user="root", password="pass"
     )
     cursor = connection.cursor()
 
@@ -383,7 +383,7 @@ def mainroot():
             host="localhost",
             database="hotel",
             user="root",
-            password="meetsql11",
+            password="pass",
         )
         cursor = connection.cursor()
         cursor.execute("select room_no from Room")
@@ -603,6 +603,95 @@ def mainroot():
             )
             sidebuttons.window_create("end", window=button[i])
             sidebuttons.insert("end", "\n")
+            add = Button(
+                b_frame,
+                text="Add Room",
+                bg="white",
+                fg="red4",
+                font="timenewroman 11",
+                command=add_room,
+            )
+        add.place(x=900, y=225)
+
+    def add_room():
+        b_frame = Frame(root, height=400, width=1080, bg="gray91")
+        b_frame.place(x=0, y=120 + 6 + 20 + 60 + 11)
+        b_frame.pack_propagate(False)
+        b_frame.tkraise()
+        path = "images/texture_bg.jpg"
+        img = ImageTk.PhotoImage(Image.open(path))
+        label = Label(b_frame, image=img, height=400, width=1080)
+        label.image = img
+        label.place(x=0, y=0)
+        rnf = Frame(b_frame, height=1, width=1)
+        rno = Entry(rnf)
+
+        pnf = Frame(b_frame, height=1, width=1)
+        pr = Entry(pnf)
+
+        rno.insert(0, "Room no. *")
+        pr.insert(0, "Room Price *")
+
+        def on_entry_click1(event):
+            if rno.get() == "Room no. *":
+                rno.delete(0, END)
+                rno.insert(0, "")
+
+        def on_entry_click3(event):
+            if pr.get() == "Room Price *":
+                pr.delete(0, END)
+                pr.insert(0, "")
+
+        def on_exit1(event):
+            if rno.get() == "":
+                rno.insert(0, "Room no. *")
+
+        def on_exit3(event):
+            if pr.get() == "":
+                pr.insert(0, "Room Price *")
+
+        rno.bind("<FocusIn>", on_entry_click1)
+        pr.bind("<FocusIn>", on_entry_click3)
+        rno.bind("<FocusOut>", on_exit1)
+        pr.bind("<FocusOut>", on_exit3)
+
+        rno.pack(ipady=4, ipadx=15)
+        pr.pack(ipady=4, ipadx=15)
+        rnf.place(x=20, y=42)
+        pnf.place(x=235, y=42)
+
+        style = ttk.Style()
+        style.map("TCombobox", fieldbackground=[("readonly", "white")])
+        Label(b_frame, text="Room Typ.:", bg="gray93",
+              font="17").place(x=730, y=50)
+        nb = ttk.Combobox(
+            b_frame,
+            values=["please select...", "standard", "deluxe", "suite"],
+            state="readonly",
+            width=22,
+        )
+        nb.place(x=840, y=50)
+        nb.current(0)
+
+        Label(b_frame, text="AC :", font="17", bg="gray93").place(x=792, y=75)
+        acf = ttk.Combobox(
+            b_frame,
+            values=["please select...", "Yes", "No"],
+            state="readonly",
+            width=22,
+        )
+        acf.place(x=840, y=75)
+        acf.current(0)
+        add = Button(
+            b_frame,
+            text="Add it!",
+            bg="white",
+            fg="red4",
+            font="timenewroman 11",
+            command=lambda: addRoom(int(rno.get()), 0, nb.get(),
+                                    acf.get(), int(pr.get())),
+        )
+        add.place(x=900, y=225)
 
     def reserve():
         b_frame = Frame(root, height=420, width=1080, bg="gray89")
@@ -768,8 +857,7 @@ def mainroot():
               font="17").place(x=730, y=50)
         nb = ttk.Combobox(
             b_frame,
-            values=["please select...", "standard",
-                    "deluxe", "suite"],
+            values=["please select...", "standard", "deluxe", "suite"],
             state="readonly",
             width=22,
         )
@@ -796,7 +884,7 @@ def mainroot():
                 host="localhost",
                 database="hotel",
                 user="root",
-                password="meetsql11",
+                password="pass",
             )
             cursor = connection.cursor()
             stri = "select room_no,price,isReserved from Room where room_type=%s and AC_available=%s order by price asc"
@@ -809,14 +897,18 @@ def mainroot():
                 listofrooms.insert(END, "No Rooms Found!")
             else:
                 for i in x:
-                    if(i[2]):
+                    if i[2]:
                         b = "Yes"
                     else:
                         b = "No"
                     listofrooms.insert(
-                        END, "Room No. -" +
-                        str(i[0]) + " - Price - " +
-                        str(i[1]) + " - booked - " + b
+                        END,
+                        "Room No. -"
+                        + str(i[0])
+                        + " - Price - "
+                        + str(i[1])
+                        + " - booked - "
+                        + b,
                     )
 
         findrooms = Button(
@@ -854,24 +946,20 @@ def mainroot():
                     "Incomplete", "Fill All the Fields marked by *")
 
             # 1) Begins with 6 or 7 or 8 or 9. Then contains 9 digits
-            elif(re.search(r'^[6-9]\d{9}$', cn.get()) == None):
-                messagebox.showinfo(
-                    "Incomplete", "Enter valid mobile number!")
+            elif re.search(r"^[6-9]\d{9}$", cn.get()) == None:
+                messagebox.showinfo("Incomplete", "Enter valid mobile number!")
 
-            elif (re.search(regex, em.get()) == None):
-                messagebox.showinfo(
-                    "Incomplete", "Enter valid Email ID!")
+            elif re.search(regex, em.get()) == None:
+                messagebox.showinfo("Incomplete", "Enter valid Email ID!")
             else:
                 connection = MySQLdb.connect(
                     host="localhost",
                     database="hotel",
                     user="root",
-                    password="meetsql11",
+                    password="pass",
                 )
                 cursor = connection.cursor()
-                stri = (
-                    "select isReserved,underRenovation from Room where room_no = %d"
-                )
+                stri = "select isReserved,underRenovation from Room where room_no = %d"
                 args = int(roomn.get())
                 cursor.execute(stri % args)
                 temp = cursor.fetchone()
@@ -891,7 +979,7 @@ def mainroot():
                         host="localhost",
                         database="hotel",
                         user="root",
-                        password="meetsql11",
+                        password="pass",
                     )
                     cursor = connection.cursor()
                     stri = "update Room set isReserved=1,date_of_booking='%s',days_of_stay=%d,booked_by='%s',no_of_customers=%d where room_no=%d"
@@ -933,8 +1021,7 @@ def mainroot():
                                 roomn.get(),
                             )
                             file1.write(toFile)
-                        messagebox.showinfo(
-                            "Information", "Bill Generated")
+                        messagebox.showinfo("Information", "Bill Generated")
 
         def unreserve():
             if roomn.get() == "Enter Room Number *" or "":
@@ -944,7 +1031,7 @@ def mainroot():
                     host="localhost",
                     database="hotel",
                     user="root",
-                    password="meetsql11",
+                    password="pass",
                 )
                 cursor = connection.cursor()
                 stri = "update Room set isReserved=0,date_of_booking=NULL,days_of_stay=NULL,booked_by=NULL,no_of_customers=NULL where room_no=%d"
