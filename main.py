@@ -17,7 +17,7 @@ x = randint(99, 400)
 
 def create_bill(date, days, fn, ln, nop, rno):
     connection = MySQLdb.connect(
-        host="localhost", database="hotel", user="root", password="pass"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
 
@@ -67,7 +67,7 @@ def create_bill(date, days, fn, ln, nop, rno):
 
 # -----------------CONNECT DB--------------
 # connection = MySQLdb.connect(
-#     host="localhost", database="hotel", user="root", password="pass"
+#     host="localhost", database="hotel", user="root", password="meetsql11"
 # )
 # cursor = connection.cursor()
 
@@ -79,7 +79,7 @@ def create_bill(date, days, fn, ln, nop, rno):
 
 def hotelStatus():
     connection = MySQLdb.connect(
-        host="localhost", database="hotel", user="root", password="pass"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
     cursor.execute("select room_no from Room")
@@ -116,7 +116,7 @@ def hotelStatus():
 def staffStatus():
     staff = []
     connection = MySQLdb.connect(
-        host="localhost", database="hotel", user="root", password="pass"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
     cursor.execute("select * from Staff")
@@ -129,7 +129,7 @@ def staffStatus():
 
 def roomStatus(roomNum):
     connection = MySQLdb.connect(
-        host="localhost", database="hotel", user="root", password="pass"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
 
@@ -143,7 +143,7 @@ def roomStatus(roomNum):
 def addRoom(rno, underRen, roomType, ac, price):
 
     connection = MySQLdb.connect(
-        host="localhost", database="hotel", user="root", password="pass"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
 
@@ -164,7 +164,7 @@ def addRoom(rno, underRen, roomType, ac, price):
 def addStaff(role, name, phone, email):
 
     connection = MySQLdb.connect(
-        host="localhost", database="hotel", user="root", password="pass"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
 
@@ -383,7 +383,7 @@ def mainroot():
             host="localhost",
             database="hotel",
             user="root",
-            password="pass",
+            password="meetsql11",
         )
         cursor = connection.cursor()
         cursor.execute("select room_no from Room")
@@ -796,7 +796,7 @@ def mainroot():
                 host="localhost",
                 database="hotel",
                 user="root",
-                password="pass",
+                password="meetsql11",
             )
             cursor = connection.cursor()
             stri = "select room_no,price,isReserved from Room where room_type=%s and AC_available=%s order by price asc"
@@ -866,7 +866,7 @@ def mainroot():
                     host="localhost",
                     database="hotel",
                     user="root",
-                    password="pass",
+                    password="meetsql11",
                 )
                 cursor = connection.cursor()
                 stri = (
@@ -891,7 +891,7 @@ def mainroot():
                         host="localhost",
                         database="hotel",
                         user="root",
-                        password="pass",
+                        password="meetsql11",
                     )
                     cursor = connection.cursor()
                     stri = "update Room set isReserved=1,date_of_booking='%s',days_of_stay=%d,booked_by='%s',no_of_customers=%d where room_no=%d"
@@ -944,7 +944,7 @@ def mainroot():
                     host="localhost",
                     database="hotel",
                     user="root",
-                    password="pass",
+                    password="meetsql11",
                 )
                 cursor = connection.cursor()
                 stri = "update Room set isReserved=0,date_of_booking=NULL,days_of_stay=NULL,booked_by=NULL,no_of_customers=NULL where room_no=%d"
