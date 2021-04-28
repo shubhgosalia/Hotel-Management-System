@@ -150,7 +150,7 @@ def addRoom(rno, underRen, roomType, ac, price):
     try:
         cursor.execute(stri % args)
         connection.commit()
-        print("Room added")
+        messagebox.showinfo("Room successfully added!")
     except (Exception) as error:
         print("Error while using MySQL table", error)
     finally:
@@ -379,9 +379,9 @@ def mainroot():
 
         connection = MySQLdb.connect(
             host="localhost",
-            database="hotel",
+            database="hotel_manage",
             user="root",
-            password="pass",
+            password="Shubh@2001",
         )
         cursor = connection.cursor()
         cursor.execute("select room_no from Room")
@@ -593,6 +593,94 @@ def mainroot():
             )
             sidebuttons.window_create("end", window=button[i])
             sidebuttons.insert("end", "\n")
+            add = Button(
+                b_frame,
+                text="Add Room",
+                bg="white",
+                fg="red4",
+                font="timenewroman 11",
+                command=add_room,
+            )
+        add.place(x=900, y=225)
+        roomdet(1)
+
+    def add_room():
+        b_frame = Frame(root, height=400, width=1080, bg="gray91")
+        b_frame.place(x=0, y=120 + 6 + 20 + 60 + 11)
+        b_frame.pack_propagate(False)
+        b_frame.tkraise()
+        path = "images/texture_bg.jpg"
+        img = ImageTk.PhotoImage(Image.open(path))
+        label = Label(b_frame, image=img, height=400, width=1080)
+        label.image = img
+        label.place(x=0, y=0)
+        rnf = Frame(b_frame, height=1, width=1)
+        rno = Entry(rnf)
+
+        pnf = Frame(b_frame, height=1, width=1)
+        pr = Entry(pnf)
+
+        rno.insert(0, "Room no. *")
+        pr.insert(0, "Room Price *")
+
+        def on_entry_click1(event):
+            if rno.get() == "Room no. *":
+                rno.delete(0, END)
+                rno.insert(0, "")
+
+        def on_entry_click3(event):
+            if pr.get() == "Price: *":
+                pr.delete(0, END)
+                pr.insert(0, "")
+
+        def on_exit1(event):
+            if rno.get() == "":
+                rno.insert(0, "Room no. *")
+
+        def on_exit3(event):
+            if pr.get() == "":
+                pr.insert(0, "Price *")
+
+        rno.bind("<FocusIn>", on_entry_click1)
+        pr.bind("<FocusIn>", on_entry_click3)
+        rno.bind("<FocusOut>", on_exit1)
+        pr.bind("<FocusOut>", on_exit3)
+
+        rno.pack(ipady=4, ipadx=15)
+        pr.pack(ipady=4, ipadx=15)
+        rnf.place(x=20, y=42)
+        pnf.place(x=235, y=42)
+
+        style = ttk.Style()
+        style.map("TCombobox", fieldbackground=[("readonly", "white")])
+        Label(b_frame, text="Room Typ.:", bg="gray93", font="17").place(x=730, y=50)
+        nb = ttk.Combobox(
+            b_frame,
+            values=["please select...", "standard", "deluxe", "suite"],
+            state="readonly",
+            width=22,
+        )
+        nb.place(x=840, y=50)
+        nb.current(0)
+
+        Label(b_frame, text="AC :", font="17", bg="gray93").place(x=792, y=75)
+        acf = ttk.Combobox(
+            b_frame,
+            values=["please select...", "Yes", "No"],
+            state="readonly",
+            width=22,
+        )
+        acf.place(x=840, y=75)
+        acf.current(0)
+        add = Button(
+            b_frame,
+            text="Add it!",
+            bg="white",
+            fg="red4",
+            font="timenewroman 11",
+            command=addRoom(int(rno.get()), 0, nb.get(), acf.get(), int(pr.get())),
+        )
+        add.place(x=900, y=225)
 
     def reserve():
         b_frame = Frame(root, height=420, width=1080, bg="gray89")
@@ -781,9 +869,9 @@ def mainroot():
         def findrooms():
             connection = MySQLdb.connect(
                 host="localhost",
-                database="hotel",
+                database="hotel_manage",
                 user="root",
-                password="pass",
+                password="Shubh@2001",
             )
             cursor = connection.cursor()
             stri = "select room_no,price,isReserved from Room where room_type=%s and AC_available=%s order by price asc"
