@@ -1,0 +1,12 @@
+							Reference.no :364
+
+	Room Number| Customer Name | Date of Booking | Days of Stay | Total Persons |
+	-----------------------------------------------------------------------------
+	8          |  kalpesh gosa   |    28/04/2021   |     2        |     1         | 
+
+
+
+			   Price/Night       = Rs 4500/-
+			   Price for 2 days  = Rs 9000/-
+			   GST               = Rs 1620.0/-
+			   GrandTotal=       = Rs 10620.0/-
