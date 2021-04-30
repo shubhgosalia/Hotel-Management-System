@@ -17,7 +17,7 @@ x = randint(99, 400)
 
 def create_bill(date, days, fn, ln, nop, rno):
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
 
@@ -52,8 +52,10 @@ def create_bill(date, days, fn, ln, nop, rno):
         + str(nop)
         + "         | \n"
     )
-    list5 = "\n\n\n\t\t\t   " + "Price/Night       = Rs " + str(p1) + "/-" + "\n"
-    list6 = "\t\t\t   " + "Price for " + days + " days  = Rs " + str(p2) + "/-" + "\n"
+    list5 = "\n\n\n\t\t\t   " + \
+        "Price/Night       = Rs " + str(p1) + "/-" + "\n"
+    list6 = "\t\t\t   " + "Price for " + days + \
+        " days  = Rs " + str(p2) + "/-" + "\n"
     list7 = "\t\t\t   " + "GST               = Rs " + str(p3) + "/-" "\n"
     list8 = "\t\t\t   " + "GrandTotal=       = Rs " + str(p4) + "/-" + "\n"
     bill = list0 + list1 + list2 + list3 + list5 + list6 + list7 + list8
@@ -77,7 +79,7 @@ def create_bill(date, days, fn, ln, nop, rno):
 
 def hotelStatus():
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
     cursor.execute("select room_no from Room")
@@ -114,7 +116,7 @@ def hotelStatus():
 def staffStatus():
     staff = []
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
     cursor.execute("select * from Staff")
@@ -127,7 +129,7 @@ def staffStatus():
 
 def roomStatus(roomNum):
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
 
@@ -141,7 +143,7 @@ def roomStatus(roomNum):
 def addRoom(rno, underRen, roomType, ac, price):
 
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
 
@@ -163,7 +165,7 @@ def addRoom(rno, underRen, roomType, ac, price):
 def addStaff(role, name, phone, email):
 
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="meetsql11"
     )
     cursor = connection.cursor()
 
@@ -380,9 +382,9 @@ def mainroot():
 
         connection = MySQLdb.connect(
             host="localhost",
-            database="hotel_manage",
+            database="hotel",
             user="root",
-            password="Shubh@2001",
+            password="meetsql11",
         )
         cursor = connection.cursor()
         cursor.execute("select room_no from Room")
@@ -460,7 +462,8 @@ def mainroot():
             tr.pack()
             smf1.pack_propagate(False)
             smf1.place(x=129 + 18, y=50)
-            Label(smf1, text=rtype, fg="red4", bg="white", font="msserif 22").pack()
+            Label(smf1, text=rtype, fg="red4",
+                  bg="white", font="msserif 22").pack()
 
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
@@ -490,7 +493,8 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 3 + 12 + 5 * 2 + 3 * 3 + 20, y=50)
-            Label(smf2, text=renov, fg="red4", bg="white", font="msserif 18").pack()
+            Label(smf2, text=renov, fg="red4",
+                  bg="white", font="msserif 18").pack()
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
@@ -504,7 +508,8 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 4 + 12 * 2 + 5 * 3 + 3 * 4 + 50, y=50)
-            Label(smf2, text=price, fg="red4", bg="white", font="msserif 18").pack()
+            Label(smf2, text=price, fg="red4",
+                  bg="white", font="msserif 18").pack()
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
@@ -518,7 +523,8 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 5 + 12 * 3 + 5 * 4 + 3 * 5 + 50, y=50)
-            Label(smf2, text=reserved, fg="red4", bg="white", font="msserif 18").pack()
+            Label(smf2, text=reserved, fg="red4",
+                  bg="white", font="msserif 18").pack()
 
             smf1 = Frame(b_frame, height=120, width=175, bg="white")
             tr = Label(
@@ -533,7 +539,8 @@ def mainroot():
             tr.pack()
             smf1.pack_propagate(False)
             smf1.place(x=129 + 18, y=190)
-            Label(smf1, text=bookedBy, fg="red4", bg="white", font="msserif 18").pack()
+            Label(smf1, text=bookedBy, fg="red4",
+                  bg="white", font="msserif 18").pack()
 
             smf2 = Frame(b_frame, height=120, width=175, bg="white")
             tr = Label(
@@ -548,7 +555,8 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 2 + 5 + 3 * 2 + 50, y=190)
-            Label(smf2, text=date, fg="red4", bg="white", font="msserif 18").pack()
+            Label(smf2, text=date, fg="red4",
+                  bg="white", font="msserif 18").pack()
 
             smf2 = Frame(b_frame, height=120, width=175, bg="white")
             tr = Label(
@@ -563,7 +571,8 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 3 + 12 + 5 * 2 + 3 * 3 + 80, y=190)
-            Label(smf2, text=days, fg="red4", bg="white", font="msserif 18").pack()
+            Label(smf2, text=days, fg="red4",
+                  bg="white", font="msserif 18").pack()
             smf2 = Frame(b_frame, height=120, width=145, bg="white")
             tr = Label(
                 smf2,
@@ -577,7 +586,8 @@ def mainroot():
             tr.pack(side="top")
             smf2.pack_propagate(False)
             smf2.place(x=140 * 4 + 12 * 2 + 5 * 3 + 3 * 4 + 110, y=190)
-            Label(smf2, text=cust, fg="red4", bg="white", font="msserif 18").pack()
+            Label(smf2, text=cust, fg="red4",
+                  bg="white", font="msserif 18").pack()
 
         button = list()
         for i in range(tor):
@@ -594,14 +604,14 @@ def mainroot():
             )
             sidebuttons.window_create("end", window=button[i])
             sidebuttons.insert("end", "\n")
-            add = Button(
-                b_frame,
-                text="Add Room",
-                bg="white",
-                fg="red4",
-                font="timenewroman 11",
-                command=add_room,
-            )
+        add = Button(
+            b_frame,
+            text="Add Room",
+            bg="white",
+            fg="red4",
+            font="timenewroman 11",
+            command=add_room,
+        )
         add.place(x=900, y=225)
         roomdet(1)
 
@@ -657,7 +667,8 @@ def mainroot():
 
         style = ttk.Style()
         style.map("TCombobox", fieldbackground=[("readonly", "white")])
-        Label(b_frame, text="Room Typ.:", bg="gray93", font="17").place(x=360, y=152)
+        Label(b_frame, text="Room Typ.:", bg="gray93",
+              font="17").place(x=360, y=152)
         nb = ttk.Combobox(
             b_frame,
             values=["please select...", "standard", "deluxe", "suite"],
@@ -843,11 +854,13 @@ def mainroot():
 
         # -------------------------------------------------------filters-------------------------
 
-        Label(b_frame, text="Filter", font="msserif 20", bg="gray93").place(x=850, y=0)
+        Label(b_frame, text="Filter", font="msserif 20",
+              bg="gray93").place(x=850, y=0)
 
         style = ttk.Style()
         style.map("TCombobox", fieldbackground=[("readonly", "white")])
-        Label(b_frame, text="Room Typ.:", bg="gray93", font="17").place(x=730, y=50)
+        Label(b_frame, text="Room Typ.:", bg="gray93",
+              font="17").place(x=730, y=50)
         nb = ttk.Combobox(
             b_frame,
             values=["please select...", "standard", "deluxe", "suite"],
@@ -875,9 +888,9 @@ def mainroot():
         def findrooms():
             connection = MySQLdb.connect(
                 host="localhost",
-                database="hotel_manage",
+                database="hotel",
                 user="root",
-                password="Shubh@2001",
+                password="meetsql11",
             )
             cursor = connection.cursor()
             stri = "select room_no,price,isReserved from Room where room_type=%s and AC_available=%s order by price asc"
@@ -935,7 +948,8 @@ def mainroot():
                 or nod.get() == "Number of Days of Stay *"
                 or roomn.get() == "Enter Room Number *"
             ):
-                messagebox.showinfo("Incomplete", "Fill All the Fields marked by *")
+                messagebox.showinfo(
+                    "Incomplete", "Fill All the Fields marked by *")
 
             # 1) Begins with 6 or 7 or 8 or 9. Then contains 9 digits
             elif re.search(r"^[6-9]\d{9}$", cn.get()) == None:
@@ -946,16 +960,21 @@ def mainroot():
             else:
                 connection = MySQLdb.connect(
                     host="localhost",
-                    database="hotel_manage",
+                    database="hotel",
                     user="root",
-                    password="Shubh@2001",
+                    password="meetsql11",
                 )
                 cursor = connection.cursor()
                 stri = "select isReserved,underRenovation from Room where room_no = %d"
                 args = int(roomn.get())
                 cursor.execute(stri % args)
                 temp = cursor.fetchone()
-                if temp[0] == 1:
+                if(temp == None):
+                    messagebox.showwarning(
+                        "ERROR",
+                        "Room number " + roomn.get() + " doesnt exist",
+                    )
+                elif temp[0] == 1:
                     messagebox.showwarning(
                         "Room is Reserved",
                         "Room number " + roomn.get() + " is Reserved",
@@ -969,9 +988,9 @@ def mainroot():
                 else:
                     connection = MySQLdb.connect(
                         host="localhost",
-                        database="hotel_manage",
+                        database="hotel",
                         user="root",
-                        password="Shubh@2001",
+                        password="meetsql11",
                     )
                     cursor = connection.cursor()
                     stri = "update Room set isReserved=1,date_of_booking='%s',days_of_stay=%d,booked_by='%s',no_of_customers=%d where room_no=%d"
@@ -992,7 +1011,8 @@ def mainroot():
                             cursor.close()
                             connection.close()
 
-                    messagebox.showinfo("Successful", "Room Booked successfully")
+                    messagebox.showinfo(
+                        "Successful", "Room Booked successfully")
                     ask = messagebox.askyesno(
                         "Successful",
                         "Room booked successfully.\nDo you want to print reciept ?",
@@ -1013,6 +1033,7 @@ def mainroot():
                             )
                             file1.write(toFile)
                         messagebox.showinfo("Information", "Bill Generated")
+                        x = randint(99, 400)
 
                     fn.delete(0, END)
                     ln.delete(0, END)
@@ -1036,9 +1057,9 @@ def mainroot():
             else:
                 connection = MySQLdb.connect(
                     host="localhost",
-                    database="hotel_manage",
+                    database="hotel",
                     user="root",
-                    password="Shubh@2001",
+                    password="meetsql11",
                 )
                 cursor = connection.cursor()
                 stri = "update Room set isReserved=0,date_of_booking=NULL,days_of_stay=NULL,booked_by=NULL,no_of_customers=NULL where room_no=%d"
@@ -1047,6 +1068,10 @@ def mainroot():
                     cursor.execute(stri % args)
                     connection.commit()
                 except (Exception) as error:
+                    messagebox.showwarning(
+                        "ERROR",
+                        "Room number " + roomn.get() + " doesnt exist",
+                    )
                     print("Error while using MySQL table", error)
                 finally:
                     if connection:
@@ -1222,8 +1247,6 @@ def mainroot():
         ).place(x=55, y=83)
         emp1inf.place(x=763, y=153)
 
-        Frame(b_frame, height=13, width=250, bg="white").place(x=410, y=2)
-        Frame(b_frame, height=13, width=250, bg="white").place(x=410, y=153)
         b_frame.place(x=0, y=120 + 6 + 20 + 60 + 11)
 
     # ---------------NAV MENU--------------------------------------------------
@@ -1271,7 +1294,8 @@ def mainroot():
     path5 = "images/logout.png"
     img5 = ImageTk.PhotoImage(Image.open(path5))
 
-    b5 = Button(sl_frame, image=img5, text="b2", bg="white", width=180, height=100)
+    b5 = Button(sl_frame, image=img5, text="b2",
+                bg="white", width=180, height=100)
     b5 = Button(
         sl_frame, image=img5, text="b2", bg="white", width=180, height=100, command=exit
     )
@@ -1281,10 +1305,14 @@ def mainroot():
     Label(sl_frame, text="Hotel Status", font="msserif 13", bg="white").place(
         x=95, y=106
     )
-    Label(sl_frame, text="Rooms", font="msserif 13", bg="white").place(x=290, y=106)
-    Label(sl_frame, text="Reserve", font="msserif 13", bg="white").place(x=457, y=106)
-    Label(sl_frame, text="Contacts", font="msserif 13", bg="white").place(x=644, y=106)
-    Label(sl_frame, text="Exit", font="msserif 13", bg="white").place(x=858, y=106)
+    Label(sl_frame, text="Rooms", font="msserif 13",
+          bg="white").place(x=290, y=106)
+    Label(sl_frame, text="Reserve", font="msserif 13",
+          bg="white").place(x=457, y=106)
+    Label(sl_frame, text="Contacts", font="msserif 13",
+          bg="white").place(x=644, y=106)
+    Label(sl_frame, text="Exit", font="msserif 13",
+          bg="white").place(x=858, y=106)
     sl_frame.pack_propagate(False)
 
     redf = Frame(root, height=6, width=1080, bg="lightsteelblue3")
