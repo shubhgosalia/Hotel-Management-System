@@ -1,5 +1,5 @@
-<h1 align="center">hotel_manage Management System</h1>
-<h3 align="center">An application to simplify a hotel_manage's operation using Python and Tkinter as GUI</h3>
+<h1 align="center">Hotel Management System</h1>
+<h3 align="center">An application to simplify a Hotel's operation using Python and Tkinter as GUI</h3>
 
 ------------------------------------------------------------------------------------------------------
 <h3>Functionalities</h3>
