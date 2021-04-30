@@ -67,12 +67,12 @@ def create_bill(date, days, fn, ln, nop, rno):
 
 # -----------------CONNECT DB--------------
 # connection = MySQLdb.connect(
-#     host="localhost", database="hotel", user="root", password="pass"
+#    host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
 # )
 # cursor = connection.cursor()
 
 # cursor.execute(
-#     "create table Room(room_no integer PRIMARY KEY, isReserved BOOLEAN DEFAULT 0, underRenovation BOOLEAN DEFAULT 0, booked_by TEXT, room_type TEXT, AC_available TEXT,  price NUMERIC, date_of_booking TEXT, days_of_stay INTEGER, no_of_customers NUMERIC)"
+#    "create table Room(room_no integer PRIMARY KEY, isReserved BOOLEAN DEFAULT 0, underRenovation BOOLEAN DEFAULT 0, booked_by TEXT, room_type TEXT, AC_available TEXT,  price NUMERIC, date_of_booking TEXT, days_of_stay INTEGER, no_of_customers NUMERIC)"
 # )
 # cursor.execute("create table Staff(role TEXT, name TEXT, phone_no TEXT, mail TEXT)")
 
