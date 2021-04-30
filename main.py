@@ -17,7 +17,7 @@ x = randint(99, 400)
 
 def create_bill(date, days, fn, ln, nop, rno):
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="pass"
     )
     cursor = connection.cursor()
 
@@ -65,19 +65,19 @@ def create_bill(date, days, fn, ln, nop, rno):
 
 # -----------------CONNECT DB--------------
 # connection = MySQLdb.connect(
-#    host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+#     host="localhost", database="hotel", user="root", password="pass"
 # )
 # cursor = connection.cursor()
 
 # cursor.execute(
-#    "create table Room(room_no integer PRIMARY KEY, isReserved BOOLEAN DEFAULT 0, underRenovation BOOLEAN DEFAULT 0, booked_by TEXT, room_type TEXT, AC_available TEXT,  price NUMERIC, date_of_booking TEXT, days_of_stay INTEGER, no_of_customers NUMERIC)"
+#     "create table Room(room_no integer PRIMARY KEY, isReserved BOOLEAN DEFAULT 0, underRenovation BOOLEAN DEFAULT 0, booked_by TEXT, room_type TEXT, AC_available TEXT,  price NUMERIC, date_of_booking TEXT, days_of_stay INTEGER, no_of_customers NUMERIC)"
 # )
 # cursor.execute("create table Staff(role TEXT, name TEXT, phone_no TEXT, mail TEXT)")
 
 
 def hotelStatus():
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="pass"
     )
     cursor = connection.cursor()
     cursor.execute("select room_no from Room")
@@ -114,7 +114,7 @@ def hotelStatus():
 def staffStatus():
     staff = []
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="pass"
     )
     cursor = connection.cursor()
     cursor.execute("select * from Staff")
@@ -127,7 +127,7 @@ def staffStatus():
 
 def roomStatus(roomNum):
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="pass"
     )
     cursor = connection.cursor()
 
@@ -141,7 +141,7 @@ def roomStatus(roomNum):
 def addRoom(rno, underRen, roomType, ac, price):
 
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="pass"
     )
     cursor = connection.cursor()
 
@@ -163,7 +163,7 @@ def addRoom(rno, underRen, roomType, ac, price):
 def addStaff(role, name, phone, email):
 
     connection = MySQLdb.connect(
-        host="localhost", database="hotel_manage", user="root", password="Shubh@2001"
+        host="localhost", database="hotel", user="root", password="pass"
     )
     cursor = connection.cursor()
 
@@ -380,9 +380,9 @@ def mainroot():
 
         connection = MySQLdb.connect(
             host="localhost",
-            database="hotel_manage",
+            database="hotel",
             user="root",
-            password="Shubh@2001",
+            password="pass",
         )
         cursor = connection.cursor()
         cursor.execute("select room_no from Room")
@@ -594,14 +594,14 @@ def mainroot():
             )
             sidebuttons.window_create("end", window=button[i])
             sidebuttons.insert("end", "\n")
-            add = Button(
-                b_frame,
-                text="Add Room",
-                bg="white",
-                fg="red4",
-                font="timenewroman 11",
-                command=add_room,
-            )
+        add = Button(
+            b_frame,
+            text="Add Room",
+            bg="white",
+            fg="red4",
+            font="timenewroman 11",
+            command=add_room,
+        )
         add.place(x=900, y=225)
         roomdet(1)
 
@@ -875,9 +875,9 @@ def mainroot():
         def findrooms():
             connection = MySQLdb.connect(
                 host="localhost",
-                database="hotel_manage",
+                database="hotel",
                 user="root",
-                password="Shubh@2001",
+                password="pass",
             )
             cursor = connection.cursor()
             stri = "select room_no,price,isReserved from Room where room_type=%s and AC_available=%s order by price asc"
@@ -947,19 +947,19 @@ def mainroot():
             else:
                 connection = MySQLdb.connect(
                     host="localhost",
-                    database="hotel_manage",
+                    database="hotel",
                     user="root",
-                    password="Shubh@2001",
+                    password="pass",
                 )
                 cursor = connection.cursor()
                 stri = "select isReserved,underRenovation from Room where room_no = %d"
                 args = int(roomn.get())
                 cursor.execute(stri % args)
                 temp = cursor.fetchone()
-                if temp == NONE:
+                if temp == None:
                     messagebox.showwarning(
                         "ERROR",
-                        "Room number " + roomn.get() + "doesnt exist",
+                        "Room number " + roomn.get() + " doesnt exist",
                     )
                 elif temp[0] == 1:
                     messagebox.showwarning(
@@ -975,9 +975,9 @@ def mainroot():
                 else:
                     connection = MySQLdb.connect(
                         host="localhost",
-                        database="hotel_manage",
+                        database="hotel",
                         user="root",
-                        password="Shubh@2001",
+                        password="pass",
                     )
                     cursor = connection.cursor()
                     stri = "update Room set isReserved=1,date_of_booking='%s',days_of_stay=%d,booked_by='%s',no_of_customers=%d where room_no=%d"
@@ -1043,9 +1043,9 @@ def mainroot():
             else:
                 connection = MySQLdb.connect(
                     host="localhost",
-                    database="hotel_manage",
+                    database="hotel",
                     user="root",
-                    password="Shubh@2001",
+                    password="pass",
                 )
                 cursor = connection.cursor()
                 stri = "update Room set isReserved=0,date_of_booking=NULL,days_of_stay=NULL,booked_by=NULL,no_of_customers=NULL where room_no=%d"
@@ -1229,8 +1229,6 @@ def mainroot():
         ).place(x=55, y=83)
         emp1inf.place(x=763, y=153)
 
-        Frame(b_frame, height=13, width=250, bg="white").place(x=410, y=2)
-        Frame(b_frame, height=13, width=250, bg="white").place(x=410, y=153)
         b_frame.place(x=0, y=120 + 6 + 20 + 60 + 11)
 
     # ---------------NAV MENU--------------------------------------------------
