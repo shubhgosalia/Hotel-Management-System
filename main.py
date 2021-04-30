@@ -885,6 +885,7 @@ def mainroot():
 
             cursor.execute(stri, args)
             x = cursor.fetchall()
+            print(x)
             listofrooms.delete(0, END)
             if len(x) == 0:
                 listofrooms.insert(END, "No Rooms Found!")
@@ -955,7 +956,12 @@ def mainroot():
                 args = int(roomn.get())
                 cursor.execute(stri % args)
                 temp = cursor.fetchone()
-                if temp[0] == 1:
+                if temp == NONE:
+                    messagebox.showwarning(
+                        "ERROR",
+                        "Room number " + roomn.get() + "doesnt exist",
+                    )
+                elif temp[0] == 1:
                     messagebox.showwarning(
                         "Room is Reserved",
                         "Room number " + roomn.get() + " is Reserved",
@@ -1013,6 +1019,7 @@ def mainroot():
                             )
                             file1.write(toFile)
                         messagebox.showinfo("Information", "Bill Generated")
+                        x = randint(99, 400)
 
                     fn.delete(0, END)
                     ln.delete(0, END)
